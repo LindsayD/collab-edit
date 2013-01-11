@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* CSS Document */
+#time-edit{
+	width:100%;
+	height:5%;
+	text-align:center;
+}
+
+#playbackSlider{
+	width:50%;
+}
