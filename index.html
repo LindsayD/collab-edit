@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+Hello collabed.it
+
+<script src="node_modules/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:8080');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+</body>
+</html>
