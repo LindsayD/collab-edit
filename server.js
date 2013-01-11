@@ -60,11 +60,35 @@ io.sockets.on('connection', function(socket){
 server.get('/', function(req,res){
 	res.render('index.jade', {
 		locals : { 
-							title : 'Your Page Title'
-						 ,description: 'Your Page Description'
-						 ,author: 'Your Name'
-						 ,analyticssiteid: 'XXXXXXX' 
-						}
+			title : 'Collabb.it',
+			description: 'Collaborate on code with your friends and family.',
+			author: '',
+			analyticssiteid: 'XXXXXXX'
+		}
+	});
+});
+
+// STRICTLY EDIT
+server.get( '/edit/:id', function( req, res ) {
+	res.render( 'edit.jade', {
+		locals : {
+			title : 'Edit Page',
+			description : '',
+			author : '',
+			analyticssiteid : 'XXXXXXX'
+		}
+	});
+});
+
+// STRICTLY VIEW
+server.get( '/view/:id', function( req, res ) {
+	res.render( 'view.jade', {
+		locals : {
+			title : 'View Page',
+			description : '',
+			author : '',
+			analyticssiteid : 'XXXXXXX'
+		}
 	});
 });
 
