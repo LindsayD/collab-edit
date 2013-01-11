@@ -1,7 +1,4 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> CSS update
 lib-cov
 *.seed
 *.log
@@ -17,7 +14,6 @@ results
 
 npm-debug.log
 node_modules
-<<<<<<< HEAD
 =======
 lib-cov
 *.seed
@@ -35,5 +31,3 @@ results
 npm-debug.log
 node_modules
 >>>>>>> Dynamic slider
-=======
->>>>>>> CSS update
