@@ -9,3 +9,11 @@
 #playbackSlider{
 	width:50%;
 }
+
+#sliderVal{
+	margin:0 auto;
+	clear:both;
+	font-family:Futura;
+	font-size:3em;
+	text-align:center;	
+}

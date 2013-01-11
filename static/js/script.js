@@ -12,4 +12,11 @@ $(document).ready(function() {
   socket.on('server_message', function(data){
    $('#receiver').append('<li>' + data + '</li>');  
   });
+  
+  	
+   $('#playbackSlider').change(function(){
+		var currentValue = $('#currentValue');
+        currentValue.html(this.value);
+    });
+
 });
