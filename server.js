@@ -133,11 +133,13 @@ function addUserToDocument(emailAddress, docId, socket, callback) {
 		}
 				
 		// update the entity
-		userSession.save(function (err, saved) {
-			if (err) { console.log("Save session failed."); }
-			console.log("Saved session: " + JSON.stringify(saved));
-			callback(err, users);
-		});
+		if (userSession !== null) {
+			userSession.save(function (err, saved) {
+				if (err) { console.log("Save session failed."); }
+				console.log("Saved session: " + JSON.stringify(saved));
+				callback(err, users);
+			});
+		}
 	});
 };
 
