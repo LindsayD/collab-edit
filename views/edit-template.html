@@ -8,18 +8,38 @@
 
 		<style>
 			#content {
-				margin-top: 40px;
+				margin-top: 41px;
+			}
+
+			#editor {
+				height: 100%;
+				width: 100%;
+			}
+
+			.editor {
+				position: relative;
+				height: 100%;
+			}
+
+			#source {
+				width: 100%;
+				height: 100%;
 			}
 		</style>
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 
+		<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+
 		<script>
 			/**
 			 * LAZY LOAD
 			 */
 			$( function() {
+					// Initialize the editor
+					initEditor();
+
 					// Resize the window
 					resize();
 
@@ -34,6 +54,41 @@
 			function resize() {
 				// Set the height of the content div
 				$( "#content" ).height( $( window ).height() - $( "#content" ).offset().top );
+				$( "#source" ).height( $( window ).height() - $( "#source" ).offset().top );
+			}
+
+			/**
+			 * Initialize the Editor
+			 */
+			function initEditor() {
+				// Load the editor
+				var editor = ace.edit( "editor" );
+				editor.setTheme("ace/theme/monokai");
+				editor.getSession().setMode("ace/mode/html");
+				editor.getSession().setUseWrapMode(true);
+
+				// Bind a change function
+				editor.on( 'change', function( e ) {
+						// Get the text
+						var x = editor.getValue();
+						
+						// Attempt to append the html
+						try {
+							// Update the local document
+							// $( '#source' ).contents().find( 'html' ).html( x );
+							$( '#source' ).attr( 'srcdoc', x );
+
+							// Update the document on the server
+							updateDocument( x );
+						} catch(e) {}
+					}
+				);
+			}
+
+			function togglePreview() {
+				$( ".view" ).toggle();
+				$( ".editor").toggleClass( "span6" );
+				$( ".editor").toggleClass( "span12" );
 			}
 		</script>
 	</head>
@@ -75,7 +130,7 @@
 							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">View <b class="caret"></b></a>
 							<ul id="viewmenu" class="dropdown-menu" role="menu" aria-labelledby="dropview">
 								<li><a tabindex="-1" href="#">Full Screen</a></li>
-								<li><a tabindex="-1" href="#">Preview</a></li>
+								<li><a tabindex="-1" href="#" onClick="togglePreview();">Preview</a></li>
 								<li class="divider"></li>
 								<li><a tabindex="-1" href="#">Timeline</a></li>
 							</ul>
@@ -110,11 +165,32 @@
 
 		<!-- PAGE BODY -->
 		<div id="content" class="row-fluid">
-			<div class="span6">
-				<div id="editor">EDITOR</div>
+			<div class="span6 editor">
+				<div id="editor"></div>
 			</div>
-			<div class="span6">
-				<div id="view">PREVIEW</div>
+			<div class="span6 view">
+				<iframe id="source" height="100" width="100" seamless="seamless"></iframe>
+				<!--
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#desktop" data-toggle="tab">Desktop</a></li>
+						<li><a href="#tablet" data-toggle="tab">Tablet</a></li>
+						<li><a href="#mobile" data-toggle="tab">Mobile</a></li>
+					</ul>
+
+					<div class="clearfix"></div>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="desktop">
+							<iframe class="source"></iframe>
+						</div>
+						<div class="tab-pane" id="tablet">Tablet View</div>
+						<div class="tab-pane" id="mobile">
+							<iframe class="source"></iframe>
+						</div>
+					</div>
+				</div>
+				-->
 			</div>
 		</div>
 	</body>

@@ -13,7 +13,9 @@
 			}
 
 			section#top {
-				background: #ebebeb;
+				background: #e9fcff url( ../images/mainlogo.png ) no-repeat center center;
+				height: 400px;
+				padding: 50px 0 10px;
 			}
 
 			section#about {
@@ -26,6 +28,15 @@
 
 			section#team {
 				background: #fff;
+			}
+
+			.btn-success{
+				background: #40bce2;
+				font-weight: bold;
+			}
+
+			.btn-success:hover {
+				background: #ff86d6;
 			}
 		</style>
 
@@ -98,15 +109,11 @@
 			<!-- TOP -->
 			<section id="top">
 				<div class="row-fluid container-fluid">
+					<div class="span6 pagination-centered"></div>
 					<div class="span6 pagination-centered">
-						<br>
 						<h1>Collaborate. Edit. Enjoy.</h1>
 						<br>
 						<button class="btn btn-success btn-large" onClick="createNewDocument();">Create New Document</button>
-					</div>
-					<div class="span6 pagination-centered">
-						<br><br><br>
-						&lt;INSERT RABBIT LOGO HERE&gt;
 					</div>
 				</div>
 			</section>
