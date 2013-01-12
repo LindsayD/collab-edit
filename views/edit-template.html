@@ -8,6 +8,7 @@
   		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="../css/edit.css" />
 		<style>
 			#content {
 				margin-top: 41px;
@@ -120,7 +121,7 @@
 					});
 					setTimeout(function(){
 						resize();
-					},0);
+					},100);
 					//toggle timeline
 				});
 			});
@@ -232,15 +233,9 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
 		</div>
 		
 		<!-- PAGE BODY -->
-        <div>
-        	<div id="slider"></div>
+        <div id="slide_container" class="span12">
+            <div id="slider"></div>
         </div>
-            <style>
-				#slider{
-					display:none;
-					z-index:100;
-				}
-			</style>
 		<div id="content" class="row-fluid">
         	
 			<div class="span6 editor">
