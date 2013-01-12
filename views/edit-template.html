@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 
 <html>
@@ -149,4 +150,147 @@
 			</div>
 		</div>
 	</body>
+=======
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Collabb.it</title>
+		 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="../css/edit.css" />
+
+		<!--<script src="../js/jquery.min.js"></script>-->
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="../js/script.js"></script>
+		<script src="../js/edit.js"></script>
+
+		<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+	</head>
+
+	<body>
+		<!-- NAVIGATION -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#">Collabb.it</a>
+					<ul class="nav" role="navigation">
+						<!-- ==================== FILE ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropfile" role="button" data-toggle="dropdown" href="#">File <b class="caret"></b></a>
+							<ul id="filemenu" class="dropdown-menu" role="menu" aria-labelledby="dropfile">
+								<li><a tabindex="-1" href="#">New File</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Save</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Exit</a></li>
+							</ul>
+						</li>
+
+						<!-- ==================== EDIT ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropedit" role="button" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
+							<ul id="editmenu" class="dropdown-menu" role="menu" aria-labelledby="dropedit">
+								<li><a tabindex="-1" href="#">Undo</a></li>
+								<li><a tabindex="-1" href="#">Redo</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Cut</a></li>
+								<li><a tabindex="-1" href="#">Copy</a></li>
+								<li><a tabindex="-1" href="#">Paste</a></li>
+							</ul>
+						</li>
+
+						<!-- ==================== VIEW ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">View <b class="caret"></b></a>
+							<ul id="viewmenu" class="dropdown-menu" role="menu" aria-labelledby="dropview">
+								<li><a tabindex="-1" href="#">Full Screen</a></li>
+								<li><a tabindex="-1" href="#" onClick="togglePreview();">Preview</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Timeline</a></li>
+							</ul>
+						</li>
+						
+						<!-- ==================== HELP ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="drophelp" role="button" data-toggle="dropdown" href="#">Help <b class="caret"></b></a>
+							<ul id="helpmenu" class="dropdown-menu" role="menu" aria-labelledby="drophelp">
+								<li><a tabindex="-1" href="#">Documentation</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">License</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Developers</a></li>
+								</ul>
+						</li>
+					</ul> 
+					
+					<ul class="nav pull-right">
+                    	<!-- ==================== TIMELINE ================= -->
+                    	<li id="timeline-icon"><i class="icon-time icon-3x"></i></li>
+                        <style>
+							#timeline-icon{
+								margin-top:6px;
+							}
+						</style>
+                        <li class="divider-vertical"></li>
+						<!-- ==================== USERS ==================== -->
+						<li><span id="username"></span><img src="" id="gravatar" /></li>
+						<li class="dropdown">
+                        
+							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
+							<ul id="usersmenu" class="dropdown-menu" role="menu" aria-labelledby="dropusers">
+								<li class="nav-header"><span id="usercount">0</span> Users</li>
+								<li class="nav-header"><ul id="userlist"></ul></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+            
+		</div>
+		<div id="playback_container" class="row-fluid span12">
+        	<a id="back_button" class="btn span1" href="#"><i class="icon-backward"></i></a>
+            <div id="slider" class="span10"></div>
+            <a id="forward_button" class="btn span1" href="#"><i class="icon-forward"></i></a>
+        </div>
+		<!-- PAGE BODY -->
+        <div id="slide_container" class="span12">
+            <div id="slider"></div>
+        </div>
+		<div id="content" class="row-fluid">
+        	
+			<div class="span6 editor">
+				<div id="editor"></div>
+			</div>
+			<div class="span6 view">
+				<iframe id="source" height="100" width="100" seamless></iframe>
+				<!--
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#desktop" data-toggle="tab">Desktop</a></li>
+						<li><a href="#tablet" data-toggle="tab">Tablet</a></li>
+						<li><a href="#mobile" data-toggle="tab">Mobile</a></li>
+					</ul>
+
+					<div class="clearfix"></div>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="desktop">
+							<iframe class="source"></iframe>
+						</div>
+						<div class="tab-pane" id="tablet">Tablet View</div>
+						<div class="tab-pane" id="mobile">
+							<iframe class="source"></iframe>
+						</div>
+					</div>
+				</div>
+				-->
+			</div>
+		</div>
+	</body>
+>>>>>>> 4fbe61be894f0ae5d042de262132da99418ba840
 </html>
