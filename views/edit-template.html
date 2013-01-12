@@ -29,6 +29,8 @@
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="../js/script.js"></script>
 
 		<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
 
@@ -175,12 +177,19 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
 						</style>
                         <li class="divider-vertical"></li>
 						<!-- ==================== USERS ==================== -->
+						<li><span id="username"></span><img src="" id="gravatar" /></li>
 						<li class="dropdown">
                         
 							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
 							<ul id="usersmenu" class="dropdown-menu" role="menu" aria-labelledby="dropusers">
-								<li><a tabindex="-1" href="#">Actively Editing</a></li>
-								<li><a tabindex="-1" href="#">All Users</a></li>
+								<li>
+								<a tabindex="-1" href="#">Actively Editing</a>
+								
+								</li>
+								<li><a tabindex="-1" href="#">All Users</a>
+								<div><span id="usercount">0</span> Users</div>
+								<ul id="userlist"></ul>
+								</li>
 							</ul>
 						</li>
 					</ul>
