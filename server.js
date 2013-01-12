@@ -1,22 +1,22 @@
-//setup Dependencies
-var connect = require('connect')
-		, express = require('express')
-		, io = require('socket.io')
-		, port = (process.env.PORT || 80);
+// Setup Dependencies
+var connect = require('connect'),
+	express = require('express'),
+	io = require('socket.io'),
+	port = (process.env.PORT || 80);
 
-//Setup Express
+// Setup Express
 var server = express.createServer();
-server.configure(function(){
-		server.set('views', __dirname + '/views');
-		server.set('view options', { layout: false });
-		server.use(connect.bodyParser());
-		server.use(express.cookieParser());
-		server.use(express.session({ secret: "shhhhhhhhh!"}));
-		server.use(connect.static(__dirname + '/static'));
-		server.use(server.router);
+server.configure( function(){
+		server.set( 'views', __dirname + '/views' );
+		server.set( 'view options', { layout : false } );
+		server.use( connect.bodyParser() );
+		server.use( express.cookieParser() );
+		server.use( express.session( { secret: "shhhhhhhhh!"}) );
+		server.use( connect.static( __dirname + '/static' ) );
+		server.use( server.router );
 });
 
-//setup the errors
+// Setup the errors
 server.error(function(err, req, res, next){
 		if (err instanceof NotFound) {
 				res.render('404.jade', { locals: { 
@@ -37,7 +37,7 @@ server.error(function(err, req, res, next){
 });
 server.listen( port );
 
-//Setup Socket.IO
+// Setup Socket.IO
 var io = io.listen(server);
 io.sockets.on('connection', function(socket){
 	console.log('Client Connected');
@@ -75,12 +75,12 @@ server.get( '/view/:id', function( req, res ) {
 });
 
 
-//A Route for Creating a 500 Error (Useful to keep around)
+// A Route for Creating a 500 Error (Useful to keep around)
 server.get('/500', function(req, res){
 		throw new Error('This is a 500 Error');
 });
 
-//The 404 Route (ALWAYS Keep this as the last route)
+// The 404 Route (ALWAYS Keep this as the last route)
 server.get('/*', function(req, res){
 		throw new NotFound;
 });
