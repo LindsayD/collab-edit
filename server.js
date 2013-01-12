@@ -171,8 +171,8 @@ server.get( '/edit/:id', function( req, res ) {
 	//initSession(req.params.id);
 	// Load the HTML view
 	
-	//res.sendfile( 'views/edit-template.html' );
-	res.sendfile( 'views/edit.html' );
+	res.sendfile( 'views/edit-template.html' );
+	//res.sendfile( 'views/edit.html' );
 });
 
 // STRICTLY VIEW
@@ -185,6 +185,12 @@ server.get( '/view/:id', function( req, res ) {
 // A Route for Creating a 500 Error (Useful to keep around)
 server.get('/500', function(req, res){
 		throw new Error('This is a 500 Error');
+});
+
+// FAVICON
+server.get( '/favicon.ico', function( req, res ) {
+	// Load the HTML view
+	res.sendfile( 'static/images/favicon.ico' );
 });
 
 // The 404 Route (ALWAYS Keep this as the last route)
