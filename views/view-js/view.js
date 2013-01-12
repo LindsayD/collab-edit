@@ -24,3 +24,4 @@ $(document).ready(function(){
 function loadSplash(src){
 		$('#view').attr('src', "splash.html");
 };
+
