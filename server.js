@@ -1,6 +1,7 @@
 // Setup Dependencies
 var connect = require('connect'),
 	express = require('express'),
+	db = require('./dbmodel/collabModels'),
 	io = require('socket.io'),
 	changeMgr = require('./models/changeManager'),
 	sessionMgr = require('./models/sessionManager'),
@@ -20,22 +21,20 @@ server.configure( function(){
 });
 server.listen( port );
 
-var docs = {};
+// Initialize DB connection
+db.connect();
 
 //Setup Socket.IO
 var io = io.listen(server);
 io.sockets.on('connection', function (socket){
 	console.log('Client Connected');
 
-	socket.on('start_session', function (data) {
-		db.connect();
-	
+	socket.on('start_session', function (data) {	
 		var room = data.documentId;
 		socket.join(room);
 		
 		console.log('joining user to doc id ' + room);
 		sessionMgr.addUserToDocument(data.emailAddress, null, room, socket, function (err, users) {
-			db.disconnect();
 			if (err) {
 				console.log("ERROR: " + JSON.stringify(err));
 				// TODO - Handle Error
