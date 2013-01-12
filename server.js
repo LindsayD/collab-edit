@@ -3,6 +3,7 @@ var connect = require('connect'),
 	express = require('express'),
 	io = require('socket.io'),
 	db = require('./dbmodel/collabModels'),
+	vm = require('./models/socketModels'),
 	port = (process.env.PORT || 80);
 
 // Setup Express
@@ -65,25 +66,14 @@ io.sockets.on('connection', function(socket){
 		
 	});
 	
+	socket.on('edit_document', function(data) {
+		// TODO : Implement
+	});
+	
 	socket.on('disconnect', function(){
 		console.log('Client Disconnected.');
 	});
 });
-
-function getSession(username, docId) {
-	// TODO - pull the user session from the combo of the doc id and the IP address
-	var session = typeof(username) !== 'undefined' && username !== null ? { 
-		sessionId: 1,
-		docId: docId,
-		username: username, 
-		gravatar: getGravatar(username)
-	} :
-	{
-		sessionId: null
-	};
-	
-	return session;
-};
 
 function addUserToDocument(emailAddress, docId, socket, callback) {
 	// Get Users
@@ -96,11 +86,15 @@ function addUserToDocument(emailAddress, docId, socket, callback) {
 		
 		// Check if current user is already logged in
 		var userSession = null,
-			emailLower = emailAddress.toLowerCase(),
+			emailLower = null,
 			i, s;
+		if (emailAddress === undefined) { emailAddress = null; }
+		if (emailAddress !== null) {
+			emailLower = emailAddress.toLowerCase();
+		}
 		for (i = 0; i < users.length; i++) {
-			socket.emit('joined_user', getSession(users[i].emailAddress, docId));
-			if (users[i].emailAddress.toLowerCase() === emailLower) {
+			socket.emit('joined_user', vm.convertSessionToViewModel(users[i]));
+			if (emailLower !== null && users[i].emailAddress.toLowerCase() === emailLower) {
 				// If so, update timestamp
 				console.log("User \"" + emailAddress + "\" already logged in. Updating activity timestamp...");
 				userSession = users[i];
@@ -110,25 +104,29 @@ function addUserToDocument(emailAddress, docId, socket, callback) {
 		
 		// Otherwise create new entity
 		if (userSession === null) {
-			userSession = new db.Models.Session({
-				emailAddress: emailAddress,
-				ipAddress: "1.1.1.1",
-				lastActivity: new Date(),
-				userAgent: "chrome",
-				sessionKey: "abc123",
-				documentId: docId
-			});
-			console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
-			console.log(JSON.stringify(userSession));
-			s = getSession(userSession.emailAddress, docId);
+			if (emailAddress !== null) {
+				userSession = new db.Models.Session({
+					emailAddress: emailAddress,
+					ipAddress: "1.1.1.1", // TODO: Get this stuff from the request
+					lastActivity: new Date(),
+					userAgent: "chrome",
+					sessionKey: "abc123",
+					documentId: docId
+				});
+				console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
+				console.log(JSON.stringify(userSession));
+				s = vm.convertSessionToViewModel(userSession);
+			}
 			socket.emit('user_session', s);	
-			socket.emit('joined_user', s);
-			socket.broadcast.to(docId).emit('joined_user', s);
-			console.log("Broadcast new user");
+			if (emailAddress !== null) {
+				socket.emit('joined_user', s);
+				socket.broadcast.to(docId).emit('joined_user', s);
+				console.log("Broadcast new user");
+			}
 		}
 		else {
 			// User already logged in
-			s = getSession(userSession.emailAddress, docId);
+			s = vm.convertSessionToViewModel(userSession);
 			socket.emit('user_session', s);	
 		}
 		
@@ -154,18 +152,6 @@ function getUsers(docId, callback) {
 		}
 		callback(err, data);
 	});
-}
-
-//x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
-//img pic: http://www.gravatar.com/avatar/9e64baef8549d829306f7e36140b3b2a?s=80
-function getGravatar(username) {
-	var crypto = require('crypto');
-	var hash = crypto.createHash('md5').update(username).digest("hex"); 
-	return { 
-		avatar: 'http://www.gravatar.com/avatar/' + hash, 
-		profile: ' http://en.gravatar.com/profile/' + hash + '.json'
-	};
-	console.log(hash);// 9b74c9897bac770ffc029102a200c5de
 }
 
 ///////////////////////////////////////////
