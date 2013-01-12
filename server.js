@@ -46,24 +46,30 @@ io.sockets.on('connection', function(socket){
 	console.log('Client Connected');
 
 	socket.on('start_session', function(data) {
+		db.connect();
+	
 		var room = data.docId;
 		socket.join(room);
 		var session = getSession(data.username, room);
 		socket.emit('user_session', session);
 		console.log('joining user to doc id ' + room);
+		addUserToDocument(session.username, room);
+		
 		socket.broadcast.to(room).emit('joined_user', session);
 		socket.emit('joined_user', session);
 		getUsers(room, function (err, users) {
+			db.disconnect();
 			if (err) {
 				// TODO - Handle Error
 			}
 			else {
 				var i;
 				for (i = 0; i < users.length; i++) {
-					socket.emit('joined_user', getSession(users[i], room));
+					socket.emit('joined_user', getSession(users[i].emailAddress, room));
 				}
 			}
 		});
+		
 	});
 	
 	socket.on('disconnect', function(){
@@ -84,10 +90,39 @@ function getSession(username, docId) {
 	};
 	
 	return session;
-}
+};
+
+function addUserToDocument(emailAddress, docId, callback) {
+	var session = new db.Models.Session({
+		emailAddress: emailAddress,
+		ipAddress: "1.1.1.1",
+		lastActivity: new Date(),
+		userAgent: "chrome",
+		sessionKey: "abc123",
+		documentId: docId
+	});
+	console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
+	console.log(JSON.stringify(session));
+	session.save(function (err, saved) {
+		if (err) { console.log("Save session failed."); }
+		console.log("Saved session: " + JSON.stringify(saved));
+		if (callback) { // optional callback
+			callback(err, saved);
+		}
+	});
+};
 
 function getUsers(docId, callback) {
-	exports.Models.Session.findByDocumentId(docId, callback);
+	console.log("Calling getUsers: " + docId);
+	db.Models.Session.findByDocumentId(docId, function (err, data) {
+		if (err) {
+			console.log("Error retrieving users: " + JSON.stringify(err));
+		}
+		else {
+			console.log("Retrieved users: " + JSON.stringify(data));
+		}
+		callback(err, data);
+	});
 }
 
 //x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
