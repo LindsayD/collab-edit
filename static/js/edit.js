@@ -93,8 +93,14 @@ function initIcons() {
  */
 function toggleTimeline() {
 	// Toggle the slider
-	$('#slider').toggle();
-
+	$('#slide_container').toggle();
+	
+	if($('#slide_container').css( 'display' ) === 'none' ){
+		$('#content').css('margin-top','41px');
+	}else{
+		$('#content').css('margin-top','0');
+	}
+	
 	// Resize the div
 	resize();
 }

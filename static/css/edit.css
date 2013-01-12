@@ -1,10 +1,13 @@
 @charset "UTF-8";
 /* CSS Document */
-#slider_container{
+#slide_container{
 	display:none;
 	margin-top:41px;
 }
 
+#slider > a{
+	height:35px;
+}
 #fullscreen-icon,
 #timeline-icon,
 #preview-icon {
