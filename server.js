@@ -41,9 +41,11 @@ io.sockets.on('connection', function (socket){
 		sessionMgr.getDocumentSessionByIpAddress(room, ipAddress, function (err, session) {
 			console.log('joining user to doc id ' + room + ", user " + JSON.stringify(session));
 			sessionMgr.addUserToDocument(session.emailAddress, session.sessionKey, ipAddress, room, socket, function (err, users) {
+				var positions = changeMgr.storeCursorPosition(room, session.emailAddress, 1, 0); // initialize to first position in the document
+				socket.emit('change_cursor', positions);
+				socket.broadcast.to(room).emit('change_cursor', positions);
 				if (err) {
 					console.log("ERROR: " + JSON.stringify(err));
-					// TODO - Handle Error
 				}
 				else {
 					console.log("Login successful...");
@@ -57,8 +59,8 @@ io.sockets.on('connection', function (socket){
 	});
 	
 	
-	socket.on('change-cursor', function (data) {
-		changeMgr.recordDocumentChange(data, socket);
+	socket.on('change_cursor', function (data) {
+		changeMgr.recordCursorChange(data, socket);
 	});
 	
 	
