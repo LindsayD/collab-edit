@@ -1,13 +1,15 @@
 @charset "UTF-8";
 /* CSS Document */
-#slider{
+#slider, #back_button, #forward_button{
 	display:none;
-	width:80%;
-	margin:0 auto;
-	clear:both;		
+	width:80%;	
 }
 
-#slide_container{
+#back_button, #forward_button{
+	width:6%;
+}
+
+#playback_container{
 	width:100%;	
 }
 

@@ -33,6 +33,7 @@ function updateCursors(data) {
 
 function sessionStart(data, docId) {
 	if (typeof(data) !== 'undefined' && data !== null && data.sessionKey !== null) {
+		me = data.emailAddress;
 		$('#username').text(data.emailAddress);
 		$('#gravatar').attr('src', data.gravatar.avatar + '?s=35');
 		getUserName($('#username'), data.gravatar.profile); 
@@ -42,6 +43,8 @@ function sessionStart(data, docId) {
 	}
 }
 var socket;
+var me = null;
+
 function getDocId() {
 	var path = window.location.pathname;
 	return path.substring(path.lastIndexOf('/') + 1);
@@ -88,6 +91,16 @@ $(document).ready(function() {
 	
 	users.append(elUser);
 	getUserName(elUser.children('span'), data.gravatar.profile);
+	
+	var txtUser = elUser.html();
+	if (data.username !== me) {
+		$('#dropusers')
+			.attr('data-content', '<div><img style="float: left; margin: 0 5px 5px 5px;" src="' + data.gravatar.avatar + '?s=50" /> ' + data.username + ' joined.</div>')
+			.attr('title', '')
+			.popover({ html: true, placement: 'left', trigger: 'manual' }).popover('show');
+		
+		setTimeout(function() { $('#dropusers').popover('hide'); }, 3500);
+	}
 	
 	$('#usercount').text(users.children().length);
   });
