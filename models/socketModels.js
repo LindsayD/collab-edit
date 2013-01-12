@@ -36,6 +36,7 @@ exports.convertSessionToViewModel = function (dbSession) {
 exports.convertDocumentToViewModel = function (document) {
 	var doc = {
 		documentId:		document.documentId,
+		revisionNum:	document.revisionNum,
 		text:			document.text
 	};
 	return doc;
@@ -44,6 +45,8 @@ exports.convertDocumentToViewModel = function (document) {
 exports.convertToDocumentChangeViewModel = function (document, emailAddress) {
 	var change = {
 		emailAddress:	emailAddress,
+		documentId:		document.documentId,
+		revisionNum:	document.revisionNum,
 		text:			document.text
 	};
 	return change;
