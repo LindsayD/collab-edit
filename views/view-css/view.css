@@ -1,6 +1,73 @@
 @charset "UTF-8";
 /* CSS Document */
-
-iframe{
-	width:100%;
+html, body {
+	height:100%;
 }
+iframe{
+	
+	width:100%;
+	height:100%;
+	border:5px solid red;
+}
+
+#tablet_view, #mobile_view{
+	display:none;
+}
+
+.tab{
+	
+}
+
+#tab_container{	
+	margin-top:2%;
+	width:100%;
+	margin:0 auto;
+	clear:both;
+	text-align:center;
+}
+//Code Player CSS
+
+.tabs  {margin: 100px 0; background: #000; padding: 50px 50px 29px 50px;}
+.tabs li{
+	float: left; position: relative;
+}
+.tabs a {
+	padding: 5px 40px; display: block; 
+	background: #ccc;
+	text-decoration: none;
+	color: #000;
+	
+	border-radius: 15px 15px 0 0;
+}
+.tabs .active {z-index: 3;}
+.tabs .active a {background: #999;}
+
+.tabs .active:before, .tabs .active:after, 
+.tabs .active a:before, .tabs .active a:after
+.tabs li:last
+{
+	content: "";
+}
+
+.tabs .active:before, .tabs .active:after {
+	background: #999;
+	width: 10px; height: 10px; display: block;
+	position: absolute; bottom: 0; z-index: 1;
+}
+.tabs .active:before { left: -10px; }
+.tabs .active:after { right: -10px; }
+
+.tabs .active a:before, .tabs .active a:after {
+	width: 20px; height: 20px; display: block;
+	position: absolute; bottom: 0;
+	background: #ccc;
+	z-index: 2;
+	
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+.tabs li a:before { left: -20px; }
+.tabs li a:after { right: -20px; }
+
+.tabs li:first-child.active a:before, .tabs li:last-child.active a:after {background: #000;}

@@ -2,12 +2,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../static/css/css-reset.css" />
 <link rel="stylesheet" type="text/css" href="view-css/view.css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 <script src="view-js/view.js"></script>
 </head>
 <body>
+	<div id="tab_container">
+		<ul class="tabs">
+			<li class="active"><a href="#">Desktop</a></li>
+			<li><a href="#">Tablet</a></li>
+			<li><a href="#">Mobile</a></li>
+		</ul>
+    </div>
 	<iframe class="tab" id="desktop_view"></iframe>
 	<iframe class="tab" id="tablet_view"></iframe>
 	<iframe class="tab" id="mobile_view"></iframe>
