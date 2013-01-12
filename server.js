@@ -120,19 +120,18 @@ function addUserToDocument(emailAddress, docId, socket, callback) {
 			}
 			socket.emit('user_session', s);	
 			if (emailAddress !== null) {
+				// Broadcast to room and self
 				socket.emit('joined_user', s);
 				socket.broadcast.to(docId).emit('joined_user', s);
 				console.log("Broadcast new user");
 			}
 		}
 		else {
-			// User already logged in
+			// User already logged in, broadcast to self
 			s = vm.convertSessionToViewModel(userSession);
 			socket.emit('user_session', s);	
 		}
-		
-		// Broadcast login to room
-		
+				
 		// update the entity
 		userSession.save(function (err, saved) {
 			if (err) { console.log("Save session failed."); }

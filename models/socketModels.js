@@ -38,3 +38,11 @@ exports.convertDocumentToViewModel = function (document) {
 	};
 	return doc;
 };
+
+exports.convertToDocumentChangeViewModel = function (document, emailAddress) {
+	var change = {
+		emailAddress:	emailAddress,
+		text:			document.text
+	};
+	return change;
+};
