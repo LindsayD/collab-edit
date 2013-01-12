@@ -15,7 +15,14 @@ section#about {
 }
 
 section#contact {
-	background: #ebebeb;
+	background: #fff;
+}
+
+section#contact .well {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	width: 800px;
 }
 
 section#team {
