@@ -49,7 +49,11 @@ function sessionStart(data, docId) {
 		getUserName($('#username'), data.gravatar.profile); 
 	}
 	else {
-		socket.emit('start_session', { documentId: docId });
+		var emailAddress = window.prompt("Welcome! Enter your email address to get started", "");
+		if (emailAddress != "") {
+			socket.emit('start_session', { documentId: docId, emailAddress: emailAddress });
+		}
+		else window.location = window.location.origin;
 	}
 }
 var socket;
