@@ -53,3 +53,8 @@ section#team {
 	border: 2px solid #fff;
 	margin-right: 10px;
 }
+
+.well {
+	background-color: #e9fcff;
+	border-color: #40bce2;
+}
