@@ -1,4 +1,4 @@
 collab-edit
 ===========
 
-Collaborative code editor
+Collaborative code editor developed at the UHO
