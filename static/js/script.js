@@ -1,17 +1,17 @@
-/* Author: YOUR NAME HERE
-*/
 
-// [ {emailAddress:String, lineNumber:1-based number, charIndex:0-based number}, ... ]
-var userPositions = []; 
-
+// data = { emailAddress:String, text:String, revisionNum:Number }
+// emailAddress = the address of the person who initiated the change
+// revisionNum = the count of revisions (bind this to the slider!)
+// text = the entire document text
 function updateEditor(data) {
 // TODO: Implement
 }
-
 function updateViews(data) {
 // TODO: Implement
 }
 
+// [ {emailAddress:String, lineNumber:1-based number, charIndex:0-based number}, ... ]
+var userPositions = []; 
 function updateCursors(data) {
 	var i, j;
 	for (i = 0; i < data.length; i++) {

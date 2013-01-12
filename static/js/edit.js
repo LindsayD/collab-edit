@@ -31,8 +31,8 @@ $( function() {
  */
 function resize() {
 	// Set the height of the content div
-	$( "#content" ).height( $( window ).height() - $( "#content" ).offset().top );
-	$( "#source" ).height( $( window ).height() - $( "#source" ).offset().top );
+	$( "#content" ).height( Math.floor( $( window ).height() - $( "#content" ).offset().top ) - 1 );
+	$( "#source" ).height( Math.floor( $( window ).height() - $( "#source" ).offset().top ) - 1 );
 }
 
 /**

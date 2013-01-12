@@ -68,7 +68,7 @@ exports.registerRoutes = function (server) {
 			function (err, data) {
 				if (err !== null) {
 					console.log("ERROR loading document: " + JSON.stringify(err));
-					throw new Error("ERROR loading document");
+					throw err;
 				}
 				else if (data !== null) {
 					res.sendfile( 'views/edit-template.html' );

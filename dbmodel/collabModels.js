@@ -16,10 +16,24 @@ exports.disconnect = function () {
 exports.Schema.document = new mongoose.Schema({
 	_id:			String,		// becomes part of the url for the document (base-64 string)
 	boilerplate:	String,		// initial text for the document
+	revisionNum:	Number,		// revision number of the document
 	text:			String		// the current representation of the document
 });
-exports.Schema.document.statics.findById = function (id, callback) {
-	this.findOne({ _id: id }, callback);
+exports.Schema.document.statics.findLatestById = function (id, callback) {
+	this.find({ _id: id })
+		.limit(1)
+		.sort("-revisionNum")
+		.exec(function (err, data) {
+			if (data === null || data.length === 0) {
+				callback(err, null);
+			}
+			else {
+				callback(err, data[0]);
+			}
+		});
+};
+exports.Schema.document.statics.findByIdAndRevision = function (id, revision, callback) {
+	this.findOne({ _id: id, revision: revision }, callback);
 };
 exports.Models.Document = mongoose.model("Document", exports.Schema.document);
 
