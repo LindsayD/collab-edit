@@ -80,8 +80,8 @@ function initEditor() {
 function initTimeline() {
 	// Initialie the slider
 	$( "#slider" ).slider( {disabled:false, slide: updateFile} );
+	var max = $( ".selector" ).slider( "option", "max" );
 	
- 
 
 }
 
@@ -101,6 +101,7 @@ function initIcons() {
 function toggleTimeline() {
 	// Toggle the slider
 	$('#slide_container').toggle();
+	var max = $( ".selector" ).slider( "option", "max" );
 	
 	if($('#slide_container').css( 'display' ) === 'none' ){
 		$('#content').css('margin-top','41px');
