@@ -1,4 +1,3 @@
-
 /**
  * Shuffle the string
  */
@@ -31,7 +30,7 @@ function createNewDocument() {
 	// Loop until you have a sufficiently long string
 	while( documentId.length < length ) {
 		// Create a position
-		var pos = Math.round( Math.random() * soup.length ) + 1
+		var pos = Math.floor( Math.random() * soup.length ) + 1
 
 		// Append the document id
 		documentId += soup.charAt( pos );
