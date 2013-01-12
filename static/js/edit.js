@@ -1,22 +1,6 @@
 // Template Code
 var template = "<html>\r\n\t<head>\r\n\t\t<title>CATS IN PAJAMAS!</title>\r\n\t\t<style type='text/css'>\r\n\t\t\tbody{margin:0;padding:10px;background-color:#FFF;color:#00B;font-weight:bold;font-size:32pt;font-family:Arial}\r\n\t\t\t.video-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; }\r\n\t\t\t.video-container iframe,.video-container object,.video-container embed {\r\n\t\t\t\tposition: absolute;top: 0;left: 0;width: 100%;height: 100%;\r\n\t\t\t}\r\n\t\t</style>\r\n\t</head>\r\n\t<body>\r\n\t\t<div>Pie Iesu Domine, Dona Eis Requiem</div>\r\n\t\t<div class='video-container'>\r\n\t\t\t<iframe src='http://www.youtube.com/embed/xOrgLj9lOwk?showinfo=0&showsearch=0&modestbranding=1&autoplay=0&rel=0&border=0#t=116s' frameborder='0' width='560' height='315' allowfullscreen></iframe>\r\n\t\t</div>\r\n\t</body>\r\n</html>";
 
-$(document).ready(function(){
-				$( "#slider" ).slider({disabled:false});
-				$("#timeline-icon").click(function(){
-					$('#slider').toggle(0);
-					$('#back_button').toggle(0);
-					$('#forward_button').toggle(0);
-					var slide_height = $('#slider').height();
-					$('#slider > a').css({'height': slide_height, 'top':'+=4px'});
-				
-					setTimeout(function(){
-						resize();
-					},100);
-					//toggle timeline
-				});
-});
-			
 /**
  * LAZY LOAD
  */
@@ -26,6 +10,13 @@ $( function() {
 
 		// Initialize the timeline
 		initTimeline();
+
+		// Initialize the icons
+		initIcons();
+
+		// Build the ACE view components
+		build_syntax();
+		build_theme();
 
 		// Resize the window
 		resize();
@@ -72,7 +63,7 @@ function initEditor() {
 	);
 	
 	// TODO Load from db document.text
-	editor.setValue(template);
+	editor.setValue( template );
 }
 
 /**
@@ -81,35 +72,38 @@ function initEditor() {
 function initTimeline() {
 	// Initialie the slider
 	$( "#slider" ).slider( {disabled:false} );
-
-	// Toggle the view of the timeline
-	$("#timeline-icon").click( function() {
-		// Toggle the slider
-		$('#slider').toggle();
-
-		// Resize the div
-		resize();
-	});
 }
 
-//
-// Toggle the preview
+
+/**
+ * Initialize the icons
+ */
+function initIcons() {
+	// Initialize the priview toggle
+	$("#timeline-icon").click( function() { toggleTimeline(); } );
+	$( "#preview-icon" ).click( function() { togglePreview(); } );
+}
+
+/**
+ * Toggle the Timeline
+ */
+function toggleTimeline() {
+	// Toggle the slider
+	$('#slider').toggle();
+
+	// Resize the div
+	resize();
+}
+
+/**
+ * Toggle the preview
+ */
 function togglePreview() {
 	$( ".view" ).toggle();
 	$( ".editor").toggleClass( "span6" );
 	$( ".editor").toggleClass( "span12" );
-}
 
-$(function() {
-    $( "#slider" ).slider({
-      value:20,
-      min: 0,
-      max: 20,
-      step: 1,
-      slide: function( event, ui ) {
-        $( "#amount" ).val( "$" + ui.value );
-      }
-    });
-	
-    $( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ) );
-  });
+	// Resize the editor
+	var editor = ace.edit( "editor" );
+	editor.resize();
+}
