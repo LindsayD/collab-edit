@@ -14,8 +14,28 @@ iframe{
 #tablet_view, #mobile_view{
 	display:none;
 }
+.navbar .nav,
+.navbar .nav > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    *zoom:1; /* hasLayout ie7 trigger */
+    vertical-align: top;
+}
 
-.tab{
+ .navbar-inner {
+    text-align:center;
+}
+ul{
+	text-align:center;
+	
+}
+
+.preview_tab{
+	font-size:2.5em;
+}
+
+/*.tab{
 	
 }
 
@@ -37,12 +57,8 @@ list-style:none;
 	border-right:2px solid white;
 	border-left:2px solid white;
 }
-#tab_container ul li span:hover{
-	background-color:orange;	
-}
-//Code Player CSS
 
-.tabs  {margin: 100px 0; background: #000; padding: 50px 50px 29px 50px;}
+
 
 .tabs li{
 	float: left; 
@@ -60,9 +76,7 @@ list-style:none;
 	text-decoration: none;
 	color: #000;
 	font-size:4em;
-}
-.tabs .active {z-index: 3;}
-.tabs .active span {background: #FFFFFF;}
+}*/
 
 
 
