@@ -43,8 +43,8 @@ function createNewDocument() {
 /**
  * Performs the login process
  */
-function login() {
-	postLoginData("brendan.conron@tufts.edu", function (data) {
+function login(email) {
+	postLoginData(email, function (data) {
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
 		

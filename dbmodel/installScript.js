@@ -49,6 +49,7 @@ var testData = function (callback) {
 var createDocumentObject = function (callback) {
 	var doc = new db.Models.Document({
 		_id: "abc123",
+		revisionNum: 1,
 		boilerplate: "<html></html>",
 		text: "<html>a</html>"
 	});

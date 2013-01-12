@@ -48,6 +48,11 @@ exports.initializeSocketServer = function (server) {
 		});
 		
 		
+		socket.on('timeline_request', function (data) {
+			changeMgr.getDocumentRevision(data.documentId, data.revisionNum, function(err, data) {
+			});
+		});
+		
 		socket.on('change_cursor', function (data) {
 			changeMgr.recordCursorChange(data, socket);
 		});
