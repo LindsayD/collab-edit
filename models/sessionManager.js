@@ -71,7 +71,7 @@ var generateSessionKey = function () {
 	return sessionKey;
 };
 
-exports.addUserToDocument = function (emailAddress, sessionKey, documentId, socket, callback) {
+exports.addUserToDocument = function (emailAddress, sessionKey, ipAddress, documentId, socket, callback) {
 	// Get Users
 	getUsers(documentId, function (e, users) {
 		if (e) {
@@ -105,7 +105,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			if (emailAddress !== null) {
 				userSession = new db.Models.Session({
 					emailAddress: emailAddress,
-					ipAddress: socket === null ? null : socket.handshake.address,
+					ipAddress: ipAddress,
 					lastActivity: new Date(),
 					userAgent: "chrome",
 					sessionKey: "temp",
@@ -121,7 +121,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			if (emailAddress !== null && socket !== null) {
 				// Broadcast to room and self
 				socket.emit('joined_user', s);
-				socket.broadcast.to(docId).emit('joined_user', s);
+				socket.broadcast.to(documentId).emit('joined_user', s);
 				console.log("Broadcast new user");
 			}
 		}
@@ -140,21 +140,6 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			});
 		}
 	});
-};
-
-function getSessionKeyFromSocket (socket, callback) {
-	getSessionFromSocket(socket, function (err, session) {
-		callback(session.sessionKey || null);
-	});
-};
-
-function getSessionFromSocket (socket, callback) {
-	var cookieString = socket.request.headers.cookie;
-	var parsedCookies = connect.utils.parseCookie(cookieString);
-	var connectSid = parsedCookies['connect.sid'];
-	if (connectSid) {
-		session_store.get(connectSid, callback);
-	}
 };
 
 function getUsers(docId, callback) {

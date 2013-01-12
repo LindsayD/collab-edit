@@ -45,7 +45,7 @@ exports.registerRoutes = function (server) {
 			function (callback) {
 				// get current user session
 				sessionMgr.getSessionData(req, true, function (currentUser){
-					console.log("Attempting to load document " + documentId + " as user " + JSON.stringify(currentUser));
+					console.log("Attempting to load document " + documentId + " as user " + req.ip + ", " + JSON.stringify(currentUser));
 					if (currentUser === null || currentUser.emailAddress === null) {
 						// No user available -- user needs to log in
 						callback(null, null);
@@ -64,7 +64,7 @@ exports.registerRoutes = function (server) {
 					return;
 				}
 				// create document session or join one
-				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, docKeys.documentId, null, callback);
+				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null, callback);
 			}],
 			function (err, data) {
 				if (err !== null) {

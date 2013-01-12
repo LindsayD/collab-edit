@@ -51,7 +51,13 @@ exports.Schema.session.statics.findByDocumentId = function (documentId, callback
 };
 exports.Schema.session.statics.findByEmailAddress = function (emailAddress, callback) {
 	this.find({ emailAddress: emailAddress })
+		.limit(5)
 		.sort("-lastActivity")
+		.exec(callback);
+};
+exports.Schema.session.statics.findByDocumentIdAndIpAddress = function (documentId, ipAddress,callback) {
+	this.find({ documentId: documentId, ipAddress: ipAddress })
+		.sort("emailAddress")
 		.exec(callback);
 };
 exports.Models.Session = mongoose.model("Session", exports.Schema.session);

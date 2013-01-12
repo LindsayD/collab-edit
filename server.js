@@ -34,7 +34,7 @@ io.sockets.on('connection', function (socket){
 		socket.join(room);
 		
 		console.log('joining user to doc id ' + room);
-		sessionMgr.addUserToDocument(data.emailAddress, null, room, socket, function (err, users) {
+		sessionMgr.addUserToDocument(data.emailAddress, null, socket.handshake.address, room, socket, function (err, users) {
 			if (err) {
 				console.log("ERROR: " + JSON.stringify(err));
 				// TODO - Handle Error
@@ -48,6 +48,12 @@ io.sockets.on('connection', function (socket){
 	socket.on('edit', function (data) {
 		changeMgr.recordDocumentChange(data, socket);
 	});
+	
+	
+	socket.on('change-cursor', function (data) {
+		changeMgr.recordDocumentChange(data, socket);
+	});
+	
 	
 	socket.on('disconnect', function (){
 		console.log('Client Disconnected.');
