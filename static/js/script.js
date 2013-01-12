@@ -4,10 +4,11 @@
 // revisionNum = the count of revisions (bind this to the slider!)
 // text = the entire document text
 function updateEditor(data) {
-// TODO: Implement
-}
-function updateViews(data) {
-// TODO: Implement
+	// Get the editor
+	var editor = ace.edit( "editor" );
+
+	// Set the text
+	editor.setValue( data.text );
 }
 
 // [ {emailAddress:String, lineNumber:1-based number, charIndex:0-based number}, ... ]
@@ -107,7 +108,7 @@ $(document).ready(function() {
   
   socket.on('edit', function(data){
 	updateEditor(data);
-	updateViews(data);
+	// updateViews(data);
   });
   
   socket.on('change_cursor', function(data){
