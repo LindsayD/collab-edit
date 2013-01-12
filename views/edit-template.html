@@ -25,6 +25,21 @@
 				width: 100%;
 				height: 100%;
 			}
+			#gravatar {
+				margin: 3px 7px;
+			}
+			#userlist{
+				list-style: none;
+				margin-left: 20px;
+			}
+			#userlist li {
+				padding: 5px 5px 5px 0;
+			}
+			#userlist li span {
+				display: block;
+				padding: 3px;
+				font-style: bold;
+			}
 		</style>
 
 		<script src="../js/jquery.min.js"></script>
@@ -194,14 +209,8 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
                         
 							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
 							<ul id="usersmenu" class="dropdown-menu" role="menu" aria-labelledby="dropusers">
-								<li>
-								<a tabindex="-1" href="#">Actively Editing</a>
-								
-								</li>
-								<li><a tabindex="-1" href="#">All Users</a>
-								<div><span id="usercount">0</span> Users</div>
-								<ul id="userlist"></ul>
-								</li>
+								<li class="nav-header"><span id="usercount">0</span> Users</li>
+								<li class="nav-header"><ul id="userlist"></ul></li>
 							</ul>
 						</li>
 					</ul>

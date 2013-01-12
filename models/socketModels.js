@@ -16,6 +16,7 @@ exports.convertSessionToViewModel = function (dbSession) {
 	if (dbSession === undefined || dbSession === null) {
 		session = {
 			emailAddress: null,
+			username: null,
 			sessionKey: null,
 			documentId: null,
 			gravatar: null
@@ -24,6 +25,7 @@ exports.convertSessionToViewModel = function (dbSession) {
 	else {
 		session = {
 			emailAddress: dbSession.emailAddress,
+			username: dbSession.emailAddress,
 			sessionKey: dbSession.sessionKey,
 			documentId: dbSession.documentId,
 			gravatar: exports.getGravatar(dbSession.emailAddress)

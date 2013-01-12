@@ -5,6 +5,7 @@ var connect = require('connect'),
 	changeMgr = require('./models/changeManager'),
 	sessionMgr = require('./models/sessionManager'),
 	routeMgr = require('./models/routeManager'),
+	db = require("./dbmodel/collabModels"),
 	port = (process.env.PORT || 80);
 
 // Setup Express

@@ -12,7 +12,7 @@ function updateViews() {
 function sessionStart(data, docId) {
 	if (typeof(data) !== 'undefined' && data !== null && data.sessionKey !== null) {
 		$('#username').text(data.emailAddress);
-		$('#gravatar').attr('src', data.gravatar.avatar + '?s=50');
+		$('#gravatar').attr('src', data.gravatar.avatar + '?s=35');
 		getUserName($('#username'), data.gravatar.profile); 
 	}
 	else {
@@ -35,10 +35,11 @@ function getUserName(elName, profileUrl) {
 		crossDomain: 'true',
 		success: function(data) {
 			//alert(data.entry[0].name.givenName);
+			console.dir(data);
 			var name = "";
 			if (data && data.entry && data.entry[0] && data.entry[0].name)
 				name = data.entry[0].name.givenName;
-			if (name != "") elName.text(name);
+			if (typeof(name) !== 'undefined' && name != "") elName.text(name);
 		}
 	}); 
 }
@@ -64,7 +65,7 @@ $(document).ready(function() {
 		.append($('<img />').attr('src', data.gravatar.avatar))
 		.append($('<br />'))
 		.append($('<span />').text(data.username));
-		
+	
 	users.append(elUser);
 	getUserName(elUser.children('span'), data.gravatar.profile);
 	

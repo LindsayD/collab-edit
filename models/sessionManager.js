@@ -14,7 +14,6 @@ exports.getSessionData = function (request, callback) {
 	}	
 	else {
 		// Get the currently edited docs
-		db.connect();
 		getDocuments(currentUser.emailAddress, function (err, data) {
 			if (err === null) {
 				var i;
@@ -22,7 +21,6 @@ exports.getSessionData = function (request, callback) {
 					currentUser.currentDocumentIds[i] = data[i].documentId;
 				}
 			}
-			db.disconnect();
 			callback(currentUser);
 		});
 	}
@@ -72,10 +70,8 @@ var generateSessionKey = function () {
 
 exports.addUserToDocument = function (emailAddress, sessionKey, documentId, socket, callback) {
 	// Get Users
-	db.connect();
-	getUsers(docId, function (e, users) {
+	getUsers(documentId, function (e, users) {
 		if (e) {
-			db.disconnect();
 			console.log("Get users failed.");
 			callback(e, null);
 			return;
@@ -118,7 +114,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			if (emailAddress !== null) {
 				// Broadcast to room and self
 				socket.emit('joined_user', s);
-				socket.broadcast.to(docId).emit('joined_user', s);
+				socket.broadcast.to(documentId).emit('joined_user', s);
 				console.log("Broadcast new user");
 			}
 		}
@@ -133,7 +129,6 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			userSession.save(function (err, saved) {
 				if (err) { console.log("Save session failed."); }
 				console.log("Saved session: " + JSON.stringify(saved));
-				db.disconnect();
 				callback(err, users);
 			});
 		}
