@@ -9,7 +9,8 @@
 		<style>
 			section {
 				padding-top: 40px;
-				height: 200px;
+				padding-bottom: 40px;
+				min-height: 200px;
 			}
 
 			section#top {
@@ -27,7 +28,8 @@
 			}
 
 			section#team {
-				background: #fff;
+				background: #000;
+				color: #fff;
 			}
 
 			.btn-success{
@@ -112,7 +114,7 @@
 					<div class="span6 pagination-centered"></div>
 					<div class="span6 pagination-centered">
 						<h1>Collaborate. Edit. Enjoy.</h1>
-						<br>
+						<br><br>
 						<button class="btn btn-success btn-large" onClick="createNewDocument();">Create New Document</button>
 					</div>
 				</div>
@@ -123,7 +125,7 @@
 			<section id="about">
 				<div class="container-fluid">
 					<h1>About Collabb.it</h1>
-					<p>Collabb.it is a web application that allows many users to edit the same document concurrently.  Users can join a document given a URL, create a new document and share the URL, or view a document being created.</p>
+					<p>Collabb.it is a web application that allows many users to edit the same document concurrently. Users can create a new document and share the URL with other developers, join a document provided by another developer, or view a document as it is being created.</p>
 				</div>
 			</section>
 
@@ -131,6 +133,53 @@
 			<section id="contact">
 				<div class="container-fluid">
 					<h1>Contact Collabb.it</h1>
+
+					<form method="post" action="" id="contactform">
+						<fieldset>
+							<!-- Name -->
+							<div class="clearfix">
+								<label for="name">
+									Your Name<span class="help-required">*</span>
+								</label>
+								<div class="input">
+									<input type="text" name="contactname" id="contactname" value="" class="span6 required" role="input" aria-required="true" />
+								</div>
+							</div>
+							
+							<!-- Email -->
+							<div class="clearfix">
+								<label for="email">
+									Your Email<span class="help-required">*</span>
+								</label>
+								<div class="input">
+									<input type="text" name="email" id="email" value="" class="span6 required email" role="input" aria-required="true" />
+								</div>
+							</div>
+
+							<!-- Subject -->
+							<div class="clearfix">
+								<label for="subject">
+									Subject<span class="help-required">*</span>
+								</label>
+								<div class="input">
+									<input type="text" name="subject" id="subject" value="" class="span6 required" role="input" aria-required="true" />
+								</div>
+							</div>
+
+							<!-- Message -->
+							<div class="clearfix">
+								<label for="message">Message<span class="help-required">*</span></label>
+								<div class="input">
+									<textarea rows="8" name="message" id="message" class="span10 required" role="textbox" aria-required="true"></textarea>
+								</div>
+							</div>
+
+							<div class="actions">
+								<input type="submit" value="Send Your Message" name="submit" id="submitButton" class="btn primary" title="Click here to submit your message!" />
+								<input type="reset" value="Clear Form" class="btn" title="Remove all the data from the form." />
+							</div>
+						</fieldset>
+					</form>
 				</div>
 			</section>
 
@@ -141,8 +190,8 @@
 
 					<div class="row-fluid">
 						<div class="span6 pagination-centered">
-							<ul class="nav">
-								<li class="header">Student Members</li>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="nav-header">Student Members</li>
 								<li>Xinan Wang</li>
 								<li>Brendan Conron</li>
 								<li>Jeremy Pitzeruse</li>
@@ -150,8 +199,8 @@
 							</ul>
 						</div>
 						<div class="span6 pagination-centered">
-							<ul class="nav">
-								<li class="header">GoDaddy Members</li>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="nav-header">GoDaddy Members</li>
 								<li>Guy Ellis</li>
 								<li>Aaron Silvas</li>
 								<li>Lindsay Donaghe</li>
