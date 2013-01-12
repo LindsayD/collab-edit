@@ -7,11 +7,11 @@ iframe{
 	
 	width:100%;
 	height:100%;
-	border:5px solid red;
+	
 }
 
 #tablet_view, #mobile_view{
-	display:none;
+	opacity:hidden;
 }
 
 .tab{
@@ -24,6 +24,20 @@ iframe{
 	margin:0 auto;
 	clear:both;
 	text-align:center;
+	border-bottom:3px solid black;
+	height:5%;
+}
+
+#tab_container ul li{
+
+}
+#tab_container ul li span {
+	border-top:2px solid green;
+	border-right:2px solid green;
+	border-left:2px solid green;
+}
+#tab_container ul li span:hover{
+	background-color:orange;	
 }
 //Code Player CSS
 
@@ -31,7 +45,7 @@ iframe{
 .tabs li{
 	float: left; position: relative;
 }
-.tabs a {
+.tabs span {
 	padding: 5px 40px; display: block; 
 	background: #ccc;
 	text-decoration: none;
@@ -42,8 +56,8 @@ iframe{
 .tabs .active {z-index: 3;}
 .tabs .active a {background: #999;}
 
-.tabs .active:before, .tabs .active:after, 
-.tabs .active a:before, .tabs .active a:after
+.tabs .active:before, .tabs span:after, 
+.tabs .active span:before, .tabs .active span:after
 .tabs li:last
 {
 	content: "";
@@ -57,7 +71,7 @@ iframe{
 .tabs .active:before { left: -10px; }
 .tabs .active:after { right: -10px; }
 
-.tabs .active a:before, .tabs .active a:after {
+.tabs .active span:before, .tabs .active span:after {
 	width: 20px; height: 20px; display: block;
 	position: absolute; bottom: 0;
 	background: #ccc;
@@ -67,7 +81,7 @@ iframe{
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 }
-.tabs li a:before { left: -20px; }
-.tabs li a:after { right: -20px; }
+.tabs li span:before { left: -20px; }
+.tabs li span:after { right: -20px; }
 
-.tabs li:first-child.active a:before, .tabs li:last-child.active a:after {background: #000;}
+.tabs li:first-child.active span:before, .tabs li:last-child.active span:after {background: #000;}
