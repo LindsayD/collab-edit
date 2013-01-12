@@ -153,6 +153,8 @@ server.get( '/edit/:id', function( req, res ) {
 	// create session or join one
 	//initSession(req.params.id);
 	// Load the HTML view
+	
+	//res.sendfile( 'views/edit-template.html' );
 	res.sendfile( 'views/edit.html' );
 });
 
