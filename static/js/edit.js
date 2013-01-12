@@ -16,6 +16,7 @@ $( function() {
 
 		// Build the ACE view components
 		build_syntax();
+		build_theme();
 
 		// Resize the window
 		resize();
