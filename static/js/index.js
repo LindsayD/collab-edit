@@ -119,6 +119,6 @@ function postLoginData (emailAddress, successCallback) {
 };
 
 $(function () {
-	$("#btnLogin").click(login);
-	setCurrentUser();
+	$("#btnLogin").click(createNewDocument);
+	//setCurrentUser();
 });
