@@ -50,25 +50,18 @@ io.sockets.on('connection', function(socket){
 	
 		var room = data.docId;
 		socket.join(room);
-		var session = getSession(data.username, room);
-		socket.emit('user_session', session);
-		console.log('joining user to doc id ' + room);
-		addUserToDocument(session.username, room);
 		
-		socket.broadcast.to(room).emit('joined_user', session);
-		socket.emit('joined_user', session);
-		getUsers(room, function (err, users) {
+		console.log('joining user to doc id ' + room);
+		addUserToDocument(data.username, room, socket, function (err, users) {
 			db.disconnect();
 			if (err) {
+				console.log("ERROR: " + JSON.stringify(err));
 				// TODO - Handle Error
 			}
 			else {
-				var i;
-				for (i = 0; i < users.length; i++) {
-					socket.emit('joined_user', getSession(users[i].emailAddress, room));
-				}
+				console.log("Login successful...");
 			}
-		});
+		});		
 		
 	});
 	
@@ -92,23 +85,61 @@ function getSession(username, docId) {
 	return session;
 };
 
-function addUserToDocument(emailAddress, docId, callback) {
-	var session = new db.Models.Session({
-		emailAddress: emailAddress,
-		ipAddress: "1.1.1.1",
-		lastActivity: new Date(),
-		userAgent: "chrome",
-		sessionKey: "abc123",
-		documentId: docId
-	});
-	console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
-	console.log(JSON.stringify(session));
-	session.save(function (err, saved) {
-		if (err) { console.log("Save session failed."); }
-		console.log("Saved session: " + JSON.stringify(saved));
-		if (callback) { // optional callback
-			callback(err, saved);
+function addUserToDocument(emailAddress, docId, socket, callback) {
+	// Get Users
+	getUsers(docId, function (e, users) {
+		if (e) {
+			console.log("Get users failed.");
+			callback(e, null);
+			return;
 		}
+		
+		// Check if current user is already logged in
+		var userSession = null,
+			emailLower = emailAddress.toLowerCase(),
+			i, s;
+		for (i = 0; i < users.length; i++) {
+			socket.emit('joined_user', getSession(users[i].emailAddress, docId));
+			if (users[i].emailAddress.toLowerCase() === emailLower) {
+				// If so, update timestamp
+				console.log("User \"" + emailAddress + "\" already logged in. Updating activity timestamp...");
+				userSession = users[i];
+				userSession.lastActivity = new Date();
+			}
+		}
+		
+		// Otherwise create new entity
+		if (userSession === null) {
+			userSession = new db.Models.Session({
+				emailAddress: emailAddress,
+				ipAddress: "1.1.1.1",
+				lastActivity: new Date(),
+				userAgent: "chrome",
+				sessionKey: "abc123",
+				documentId: docId
+			});
+			console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
+			console.log(JSON.stringify(userSession));
+			s = getSession(userSession.emailAddress, docId);
+			socket.emit('user_session', s);	
+			socket.emit('joined_user', s);
+			socket.broadcast.to(docId).emit('joined_user', s);
+			console.log("Broadcast new user");
+		}
+		else {
+			// User already logged in
+			s = getSession(userSession.emailAddress, docId);
+			socket.emit('user_session', s);	
+		}
+		
+		// Broadcast login to room
+		
+		// update the entity
+		userSession.save(function (err, saved) {
+			if (err) { console.log("Save session failed."); }
+			console.log("Saved session: " + JSON.stringify(saved));
+			callback(err, users);
+		});
 	});
 };
 
