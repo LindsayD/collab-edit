@@ -30,10 +30,10 @@ exports.Schema.document.statics.findLatestById = function (id, callback) {
 			else {
 				callback(err, data[0]);
 			}
-		});
+		});		
 };
-exports.Schema.document.statics.findByIdAndRevision = function (id, revision, callback) {
-	this.findOne({ _id: id, revision: revision }, callback);
+exports.Schema.document.statics.findByIdAndRevision = function (id, revisionNum, callback) {
+	this.findOne({ _id: id, revisionNum: revisionNum }, callback);
 };
 exports.Models.Document = mongoose.model("Document", exports.Schema.document);
 
