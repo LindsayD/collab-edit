@@ -1,14 +1,11 @@
 /**
  * Performs the login process
  */
-function login(email) {
-	postLoginData(email, function (data) {
+function login(documentId, email, callback) {
+	postLoginData(documentId, email, function (data) {
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
-		
-		// TODO Show current user on UI
-		// for now just create a doc...
-		createNewDocument();
+		callback(data);
 	});
 };
 
@@ -60,12 +57,12 @@ function getCurrentUserData (successCallback) {
 	});
 };
 
-function postLoginData (emailAddress, successCallback) {
+function postLoginData (documentId, emailAddress, successCallback) {
 	$.ajax({
 		url: "/login",
 		type: "POST",
 		dataType: "json",
-		data: JSON.stringify({emailAddress: emailAddress}),
+		data: JSON.stringify({emailAddress: emailAddress, documentId: documentId}),
 		contentType: "application/json",
 		success: function(data) {
 		  if (successCallback) { successCallback(data); }

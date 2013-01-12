@@ -18,9 +18,11 @@ exports.getSessionData = function (request, includeDocumentIds, callback) {
 	};
 	if (currentUser.emailAddress === null) {
 		// If no current user, don't bother trying to retrieve documents
+		console.log("GetSessionData: No current user.");
 		callback(currentUser);
 	}	
 	else if (includeDocumentIds === true) {
+		console.log("GetSessionData: Loading Gravatar For " + currentUser.emailAddress);
 		// add gravatar info
 		currentUser.gravatar = vm.getGravatar(currentUser.emailAddress);
 		
@@ -120,6 +122,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, ipAddress, docum
 				s = vm.convertSessionToViewModel(userSession);
 			}
 			if (socket !== null) {
+				console.log("SOCKET: ADDING NEW USER");
 				socket.emit('user_session', s);	
 			}
 			if (emailAddress !== null && socket !== null) {
@@ -131,8 +134,9 @@ exports.addUserToDocument = function (emailAddress, sessionKey, ipAddress, docum
 		}
 		else if (socket !== null) {
 			// User already logged in, broadcast to self
+			console.log("SOCKET: ADDING EXISTING USER");
 			s = vm.convertSessionToViewModel(userSession);
-			socket.emit('user_session', s);	
+			// socket.emit('user_session', s);	
 		}
 				
 		// update the entity

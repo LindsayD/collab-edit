@@ -32,6 +32,7 @@ exports.registerRoutes = function (server) {
 		console.log("LOGIN DATA: " + loginData);
 		sessionMgr.setSessionData(req, req.body.emailAddress);		
 		sessionMgr.getSessionData(req, true, function (currentUser){
+			console.log("LOGGED IN USER " + JSON.stringify(currentUser));
 			res.json(currentUser);
 		});
 	});

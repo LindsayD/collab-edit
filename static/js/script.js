@@ -42,9 +42,13 @@ function sessionStart(data, docId) {
 	else {
 		var emailAddress = window.prompt("Welcome! Enter your email address to get started", "");
 		if (emailAddress != "") {
-			socket.emit('start_session', { documentId: docId, emailAddress: emailAddress });
+			login(docId, emailAddress, function() {
+				socket.emit('start_session', { documentId: docId, emailAddress: emailAddress, sessionKey: sessionKey });
+			});
 		}
-		else window.location = window.location.origin;
+		else {
+			window.location = window.location.origin;
+		}
 	}
 }
 var socket;
@@ -77,7 +81,7 @@ $(document).ready(function() {
   
 
   $('#sender').bind('click', function() {
-   socket.emit('message', 'Message Sent on ' + new Date());     
+   socket.emit('message', 'message sent on ' + new date());     
   });
 
   sessionStart(null, getDocId());
