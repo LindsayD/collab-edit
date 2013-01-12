@@ -11,6 +11,15 @@ function updateEditor(data) {
 	editor.setValue( data.text );
 }
 
+function updateDocument( text ) {
+	// Send a socket call
+	socket.emit( 'edit', {
+			text : text,
+			emailAddress : me
+		}
+	);
+}
+
 // [ {emailAddress:String, lineNumber:1-based number, charIndex:0-based number}, ... ]
 var userPositions = []; 
 function updateCursors(data) {
