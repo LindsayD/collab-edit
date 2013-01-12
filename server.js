@@ -7,6 +7,7 @@ var connect = require('connect'),
 	sessionMgr = require('./models/sessionManager'),
 	routeMgr = require('./models/routeManager'),
 	db = require("./dbmodel/collabModels"),
+	vm = require('./models/socketModels'),
 	port = (process.env.PORT || 80);
 
 // Setup Express
@@ -41,15 +42,26 @@ io.sockets.on('connection', function (socket){
 		sessionMgr.getDocumentSessionByIpAddress(room, ipAddress, function (err, session) {
 			console.log('joining user to doc id ' + room + ", user " + JSON.stringify(session));
 			sessionMgr.addUserToDocument(session.emailAddress, session.sessionKey, ipAddress, room, socket, function (err, users) {
-				var positions = changeMgr.storeCursorPosition(room, session.emailAddress, 1, 0); // initialize to first position in the document
-				socket.emit('change_cursor', positions);
-				socket.broadcast.to(room).emit('change_cursor', positions);
-				if (err) {
-					console.log("ERROR: " + JSON.stringify(err));
-				}
-				else {
-					console.log("Login successful...");
-				}
+				changeMgr.getOrCreateDocument(room, function (err, doc) {
+					if (err !== null || doc === null) {
+						console.log("ERROR LOADING DOCUMENT: " + JSON.stringify(err));
+						throw new Error("ERROR loading document");
+					}
+					else {						
+						var docModel = vm.convertToDocumentChangeViewModel(doc, session.emailAddress);						
+						console.log("OUTPUTTING DOCUMENT: " + JSON.stringify(docModel));
+						
+						// Load document
+						socket.emit('edit', docModel);	
+
+						// Load cursor positions (and initialize for current user)
+						var positions = changeMgr.storeCursorPosition(room, session.emailAddress, 1, 0); // initialize to first position in the document
+						socket.emit('change_cursor', positions);						
+						socket.broadcast.to(room).emit('change_cursor', positions);
+						
+						console.log("Login successful...");
+					}
+				});
 			});
 		});		
 	});
