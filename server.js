@@ -58,38 +58,20 @@ io.sockets.on('connection', function(socket){
 /////// ADD ALL YOUR ROUTES HERE  /////////
 
 server.get('/', function(req,res){
-	res.render('index.jade', {
-		locals : { 
-			title : 'Collabb.it',
-			description: 'Collaborate on code with your friends and family.',
-			author: '',
-			analyticssiteid: 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/index.html' );
 });
 
 // STRICTLY EDIT
 server.get( '/edit/:id', function( req, res ) {
-	res.render( 'edit.jade', {
-		locals : {
-			title : 'Edit Page',
-			description : '',
-			author : '',
-			analyticssiteid : 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/edit.html' );
 });
 
 // STRICTLY VIEW
 server.get( '/view/:id', function( req, res ) {
-	res.render( 'view.jade', {
-		locals : {
-			title : 'View Page',
-			description : '',
-			author : '',
-			analyticssiteid : 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/view.html' );
 });
 
 
@@ -103,11 +85,14 @@ server.get('/*', function(req, res){
 		throw new NotFound;
 });
 
+//
+//
 function NotFound(msg){
 		this.name = 'NotFound';
 		Error.call(this, msg);
 		Error.captureStackTrace(this, arguments.callee);
 }
 
-
+//
+//
 console.log('Listening on http://0.0.0.0:' + port );
