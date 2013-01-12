@@ -31,7 +31,6 @@
 		<script src="../js/bootstrap.min.js"></script>
 
 		<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
-
 		<script>
 			/**
 			 * LAZY LOAD
@@ -96,10 +95,23 @@
 			
 			$(document).ready(function(){
 				$("#timeline-icon").click(function(){
+					$('#slider').fadeIn('fast');
 					//toggle timeline
 				});
 			});
 			
+			$(function() {
+    			$( "#slider" ).slider({
+      				value:100,
+      				min: 0,
+      				max: 500,
+      				step: 50,
+      				slide: function( event, ui ) {
+       		 		$( "#amount" ).val( "$" + ui.value );
+      			}
+    		});
+    		$( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ) );
+  			});
 			
 var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css'>body{margin:0;padding:10px;background-color:#FFF;color:#00B;font-weight:bold;font-size:32pt;font-family:Arial}" +
 ".video-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; }.video-container iframe,.video-container object,.video-container embed {" +
@@ -187,7 +199,7 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
 				</div>
 			</div>
 		</div>
-
+		<div id="slider" style="opacity:0"></div>
 		<!-- PAGE BODY -->
 		<div id="content" class="row-fluid">
 			<div class="span6 editor">
