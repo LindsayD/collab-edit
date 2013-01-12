@@ -10,15 +10,15 @@ function updateViews() {
 }
 
 function sessionStart(data, docId) {
-	if (typeof(data) !== 'undefined' && data !== null && data.sessionId !== null) {
-		$('#username').text(data.username);
+	if (typeof(data) !== 'undefined' && data !== null && data.sessionKey !== null) {
+		$('#username').text(data.emailAddress);
 		$('#gravatar').attr('src', data.gravatar.avatar + '?s=50');
 		getUserName($('#username'), data.gravatar.profile); 
 	}
 	else {
 		// TODO - handle if user doesn't enter an email address
 		var email = window.prompt('Enter your email address to get started', '');
-		socket.emit('start_session', { username: email, docId: docId });
+		socket.emit('start_session', { emailAddress: email, documentId: docId });
 	}
 }
 var socket;

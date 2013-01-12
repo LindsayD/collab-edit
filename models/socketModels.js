@@ -30,3 +30,11 @@ exports.convertSessionToViewModel = function (dbSession) {
 	}
 	return session;
 };
+
+exports.convertDocumentToViewModel = function (document) {
+	var doc = {
+		documentId:		document.documentId,
+		text:			document.text
+	};
+	return doc;
+};

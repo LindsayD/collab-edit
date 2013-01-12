@@ -4,6 +4,7 @@ var connect = require('connect'),
 	io = require('socket.io'),
 	db = require('./dbmodel/collabModels'),
 	vm = require('./models/socketModels'),
+	changeMgr = require('./models/changeManager'),
 	port = (process.env.PORT || 80);
 
 // Setup Express
@@ -49,11 +50,11 @@ io.sockets.on('connection', function(socket){
 	socket.on('start_session', function(data) {
 		db.connect();
 	
-		var room = data.docId;
+		var room = data.documentId;
 		socket.join(room);
 		
 		console.log('joining user to doc id ' + room);
-		addUserToDocument(data.username, room, socket, function (err, users) {
+		addUserToDocument(data.emailAddress, room, socket, function (err, users) {
 			db.disconnect();
 			if (err) {
 				console.log("ERROR: " + JSON.stringify(err));
@@ -66,8 +67,8 @@ io.sockets.on('connection', function(socket){
 		
 	});
 	
-	socket.on('edit_document', function(data) {
-		// TODO : Implement
+	socket.on('edit', function(data) {
+		changeMgr.recordDocumentChange(data, socket);
 	});
 	
 	socket.on('disconnect', function(){
@@ -202,4 +203,4 @@ function NotFound(msg){
 
 //
 //
-console.log('Listening on http://0.0.0.0:' + port );
+console.log('Listening on http://localhost:' + port );
