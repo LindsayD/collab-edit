@@ -28,10 +28,17 @@ function getDocId() {
 }
 
 function getUserName(elName, profileUrl) {
+	console.log(profileUrl);
 	$.ajax({
 		url: profileUrl + '?s=80',
+		type: 'GET',
+		dataType: 'jsonp',
 		success: function(data) {
-			elName.text(data.name.givenName);
+			//alert(data.entry[0].name.givenName);
+			var name = "";
+			if (data && data.entry && data.entry[0] && data.entry[0].name)
+				name = data.entry[0].name.givenName;
+			if (name != "") elName.text(name);
 		}
 	});
 }
