@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 	<head>
@@ -187,4 +188,188 @@
 		</div>
 		<script src="../js/index.js"></script>
 	</body>
+=======
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Collabb.it</title>
+		<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../images/favicon.ico" sizes="16x16 32x32 48x48" type="image/vnd.microsoft.icon" />
+		
+		<link rel="icon" href="../images/collabbit_16x16.png" sizes="16x16" type="image/png" />
+		<link rel="icon" href="../images/collabbit_32x32.png" sizes="32x32" type="image/png" />
+		<link rel="icon" href="../images/collabbit_48x48.png" sizes="48x48" type="image/png" />
+		<link rel="icon" href="../images/collabbit_64x64.png" sizes="64x64" type="image/png" />
+		<link rel="icon" href="../images/collabbit_128x128.png" sizes="128x128" type="image/png" />
+		<link rel="icon" href="../images/collabbit_256x256.png" sizes="256x256" type="image/png" />
+
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<!-- NAVBAR -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#">Collabb.it</a>
+
+					<ul class="nav">
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+						<li><a href="#team">The Team</a></li>
+					</ul>
+                    <ul class="nav pull-right">
+  						<li><div class="control-group">
+    					<div class="controls">
+      						<input type="text" id="inputEmail" placeholder="Email">
+                            </div>
+    					</div>
+                    	</li>
+  					
+                    <li>
+                    <div class="control-group">
+    				<div class="controls">
+      				<button type="submit" class="btn">Sign in</button>
+    			</div>
+  			</div>
+            </li>
+                    </ul>
+				</div>
+			</div>
+           
+  			
+		
+
+            </div>
+		</div>
+
+		<!-- PAGE -->
+		<div class="content">
+			<!-- TOP -->
+			<section id="top">
+				<div class="row-fluid">
+					<div class="span6 pagination-centered"></div>
+					<div class="span6 pagination-centered">
+						<h1>Collaborate. Edit. Enjoy.</h1>
+						<br><br>
+						<button id="btnLogin" class="btn btn-success btn-large">Create New Document</button>
+						<div id="currentUser"></div>
+					</div>
+				</div>
+			</section>
+
+
+			<!-- ABOUT -->
+			<section id="about">
+				<div class="container-fluid">
+					<h1>About Collabb.it</h1>
+					<p>Collabb.it is a web application that allows many users to edit the same document concurrently. Users can create a new document and share the URL with other developers, join a document provided by another developer, or view a document as it is being created.</p>
+
+					<br>
+					<div class="sponsors pagination-centered">
+						<h4>Sponsored By:</h4>
+
+						<div class="row-fluid">
+							<div class="span6">
+								<a href="http://www.godaddy.com"><img src="../images/godaddy.png" style="height: 100px;" alt="Go Daddy"/></a>
+							</div>
+							<div class="span6">
+								<a href="http://www.signalfire.com"><img src="../images/signalfire.png" style="height: 100px;" alt="Signal Fire"/></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- CONTACT -->
+			<section id="contact">
+				<div class="well">
+					<div class="container-fluid">
+						<h1>Contact Collabb.it</h1>
+
+						<form method="post" action="" id="contactform">
+							<fieldset>
+								<!-- Name -->
+								<div class="clearfix">
+									<label for="name">
+										Your Name<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="contactname" id="contactname" value="" class="span6 required" role="input" aria-required="true" />
+									</div>
+								</div>
+								
+								<!-- Email -->
+								<div class="clearfix">
+									<label for="email">
+										Your Email<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="email" id="email" value="" class="span6 required email" role="input" aria-required="true" />
+									</div>
+								</div>
+
+								<!-- Subject -->
+								<div class="clearfix">
+									<label for="subject">
+										Subject<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="subject" id="subject" value="" class="span6 required" role="input" aria-required="true" />
+									</div>
+								</div>
+
+								<!-- Message -->
+								<div class="clearfix">
+									<label for="message">Message<span class="help-required">*</span></label>
+									<div class="input">
+										<textarea rows="8" name="message" id="message" class="span10 required" role="textbox" aria-required="true"></textarea>
+									</div>
+								</div>
+
+								<div class="actions">
+									<input type="submit" value="Send Your Message" name="submit" id="submitButton" class="btn primary" title="Click here to submit your message!" />
+									<input type="reset" value="Clear Form" class="btn" title="Remove all the data from the form." />
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<!-- TEAM -->
+			<section id="team">
+				<div class="container-fluid">
+					<h1>The Collabb.it Team</h1>
+
+					<div class="row-fluid">
+						<div class="span6 pagination-centered">
+							<ul class="nav nav-pills nav-stacked">
+								<li class="nav-header">Student Members</li>
+								<li><a href="http://www.linkedin.com/pub/xinan-wang/25/783/b2a" target="linkedIn">Xinan Wang</a></li>
+								<li><a href="http://www.linkedin.com/pub/brendan-conron/52/22/611" target="linkedIn">Brendan Conron</a></li>
+								<li><a href="http://www.linkedin.com/in/jpitzeruse" target="linkedIn">Jeremy Pitzeruse</a></li>
+								<li><a href="mailto:sindhu22@gmail.com" target="linkedIn">Sindhu Suryanarayana</a></li>
+							</ul>
+						</div>
+						<div class="span6 pagination-centered">
+							<ul class="nav nav-pills nav-stacked">
+								<li class="nav-header">GoDaddy Members</li>
+								<li><a href="http://www.linkedin.com/in/wildfiction" target="linkedIn">Guy Ellis</a></li>
+								<li><a href="http://www.linkedin.com/pub/aaron-silvas/6/762/581" target="linkedIn">Aaron Silvas</a></li>
+								<li><a href="http://www.linkedin.com/in/lindsayd" target="linkedIn">Lindsay Donaghe</a></li>
+								<li><a href="http://www.linkedin.com/in/stevecommisso" target="linkedIn">Stephen Commisso</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<script src="../js/index.js"></script>
+	</body>
+>>>>>>> Login forms
 </html>

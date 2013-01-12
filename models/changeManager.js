@@ -4,6 +4,7 @@ var db = require("./../dbmodel/collabModels"),
 
 var getDoc = function (documentId, callback) {
 	db.Models.Document.findById(documentId, function (err, doc) {
+		console.log("Retrieving document: " + documentId + "...");
 		if (err === null) {
 			console.log("Successfully retrieved document: " + JSON.stringify(doc));
 		}
@@ -13,6 +14,28 @@ var getDoc = function (documentId, callback) {
 		callback(err, doc);
 	});
 };
+var template = "<html>\r\n\t<head>\r\n\t\t<title>My Page</title>\r\n\t\t<style type='text/css'>\r\n\t\t\tbody{margin:0;padding:10px;background-color:#FFF;color:#00B;font-weight:bold;font-size:32pt;font-family:Arial}\r\n\t\t\t.video-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; }\r\n\t\t\t.video-container iframe,.video-container object,.video-container embed {\r\n\t\t\t\tposition: absolute;top: 0;left: 0;width: 100%;height: 100%;\r\n\t\t\t}\r\n\t\t</style>\r\n\t</head>\r\n\t<body>\r\n\t\t<div>Pie Iesu Domine, Dona Eis Requiem</div>\r\n\t\t<div class='video-container'>\r\n\t\t\t<iframe src='http://www.youtube.com/embed/xOrgLj9lOwk?showinfo=0&showsearch=0&modestbranding=1&autoplay=0&rel=0&border=0#t=116s' frameborder='0' width='560' height='315' allowfullscreen></iframe>\r\n\t\t</div>\r\n\t</body>\r\n</html>";
+exports.getOrCreateDocument = function (documentId, callback) {
+	getDoc(documentId, function(err, data) {
+		if (err === null && data === null) {
+			// Create the doc
+			var doc = new db.Models.Document({
+				_id: documentId,
+				boilerplate: template,
+				text: template
+			});
+			console.log("Creating new document...");
+			doc.save(function (err, saved) {
+				if (err) { console.log("Save failed."); }
+				else { console.log("Saved: " + JSON.stringify(saved)); }
+				callback(err, saved);
+			});
+		}
+		else {
+			callback(err, data);
+		}
+	});
+}
 
 var saveDoc = function (newText, dbDocument, callback) {
 	if (newText !== dbDocument.text) {

@@ -19,7 +19,7 @@ exports.Schema.document = new mongoose.Schema({
 	text:			String		// the current representation of the document
 });
 exports.Schema.document.statics.findById = function (id, callback) {
-	this.find({ _id: id }, callback);
+	this.findOne({ _id: id }, callback);
 };
 exports.Models.Document = mongoose.model("Document", exports.Schema.document);
 
