@@ -54,5 +54,5 @@ function build_theme() {
  */
 function set_theme( mode ) {
 	var editor = ace.edit( "editor" );
-	editor.setTheme( "ace/theme/" + mode );
+	editor.setTheme( mode );
 }

@@ -102,4 +102,8 @@ function togglePreview() {
 	$( ".view" ).toggle();
 	$( ".editor").toggleClass( "span6" );
 	$( ".editor").toggleClass( "span12" );
+
+	// Resize the editor
+	var editor = ace.edit( "editor" );
+	editor.resize();
 }
