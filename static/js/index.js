@@ -45,7 +45,7 @@ function createNewDocument() {
  * Performs the login process
  */
 function login() {
-	postLoginData("lindsay@donaghe.com", function (data) {
+	postLoginData("brendan.conron@tufts.edu", function (data) {
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
 		
@@ -62,15 +62,15 @@ function setCurrentUser() {
 		// TODO Welcome user
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
-		
+
 		getUserName(data.gravatar.profile, function(name) {
 			if (typeof(name) === 'undefined' || name === "") name = data.emailAddress;
-			$('#currentUser').html('<div>Welcome back, <img src="' + data.gravatar.avatar + '?s=40" /> ' + name + '</div>');
+			$('#currentUser').html('<div>Welcome back, <img src="' + data.gravatar.avatar + '?s=30" /> ' + name + '</div>');
 		});
 	});
 };
 
-function getUserName(profileUrl) {
+function getUserName(profileUrl, callback) {
 	$.ajax({
 		url: profileUrl,
 		type: 'GET',

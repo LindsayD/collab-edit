@@ -9,6 +9,13 @@ section#top {
 	height: 400px;
 	padding: 50px 0 10px;
 }
+section#top h1 {
+	font-size: 220%;
+}
+
+#currentUser {
+	margin-bottom: 7px;
+}
 
 section#about {
 	background: #fff;
@@ -37,4 +44,11 @@ section#team {
 
 .btn-success:hover {
 	background: #ff86d6;
+}
+#team .nav li {
+	margin: 2px 0;
+}
+#team .nav li  img{
+	border: 2px solid #fff;
+	margin-right: 10px;
 }
