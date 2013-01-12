@@ -21,6 +21,9 @@ exports.getSessionData = function (request, includeDocumentIds, callback) {
 		callback(currentUser);
 	}	
 	else if (includeDocumentIds === true) {
+		// add gravatar info
+		currentUser.gravatar = vm.getGravatar(currentUser.emailAddress);
+		
 		// Get the currently edited docs
 		getDocuments(currentUser.emailAddress, function (err, data) {
 			if (err === null) {
@@ -33,6 +36,7 @@ exports.getSessionData = function (request, includeDocumentIds, callback) {
 		});
 	}
 	else {
+		currentUser.gravatar = vm.getGravatar(currentUser.emailAddress);
 		callback(currentUser);
 	}
 };

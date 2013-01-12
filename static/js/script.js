@@ -1,12 +1,34 @@
 /* Author: YOUR NAME HERE
 */
 
-function updateEditor() {
+// [ {emailAddress:String, lineNumber:1-based number, charIndex:0-based number}, ... ]
+var userPositions = []; 
 
+function updateEditor(data) {
+// TODO: Implement
 }
 
-function updateViews() {
+function updateViews(data) {
+// TODO: Implement
+}
 
+function updateCursors(data) {
+	var i, j;
+	for (i = 0; i < data.length; i++) {
+		for (j = 0; j < userPositions.length; j++) {
+			if (data[i].emailAddress === userPositions[j].emailAddress) {
+				userPositions[j].lineNumber = data[i].lineNumber;
+				userPositions[j].charIndex = data[i].charIndex;
+				break;
+			}
+		}
+		// not found, add the user position
+		userPositions[userPositions.length] = {
+			emailAddress: data[i].emailAddress,
+			lineNumber: data[i].lineNumber,
+			charIndex: data[i].charIndex
+		};
+	}
 }
 
 function sessionStart(data, docId) {
@@ -86,6 +108,10 @@ $(document).ready(function() {
   socket.on('edit', function(data){
 	updateEditor(data);
 	updateViews(data);
+  });
+  
+  socket.on('change_cursor', function(data){
+	updateCursors(data);
   });
   	
    $('#playbackSlider').change(function(){
