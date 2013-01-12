@@ -10,6 +10,11 @@
 	margin-top: 12px;
 }
 
+.nav li:hover{
+	cursor:hand;
+	cursor:pointer;
+}
+
 #content {
 	margin-top: 41px;
 }
