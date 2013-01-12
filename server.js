@@ -52,6 +52,10 @@ io.sockets.on('connection', function(socket){
 		console.log('joining user to doc id ' + room);
 		socket.broadcast.to(room).emit('joined_user', session);
 		socket.emit('joined_user', session);
+		var users = getUsers(room);
+		for (var i=0; i < users.length; i++) {
+			socket.emit('joined_user', getSession(users[i], room));
+		}
 	});
 	
 	socket.on('disconnect', function(){
@@ -72,6 +76,11 @@ function getSession(username, docId) {
 	};
 	
 	return session;
+}
+
+function getUsers(docId) {
+	
+	return [];
 }
 
 //x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
