@@ -7,6 +7,7 @@ function updateEditor(data) {
 // TODO: Implement
 }
 function updateViews(data) {
+	
 // TODO: Implement
 }
 
