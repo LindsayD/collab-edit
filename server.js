@@ -19,6 +19,9 @@ server.configure( function(){
 });
 server.listen( port );
 
+
+
+
 // Initialize DB connection
 db.connect();
 

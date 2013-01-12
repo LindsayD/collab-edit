@@ -21,12 +21,16 @@ $( function() {
 
 		// Resize the window
 		resize();
-
+		$( "#slider" ).on( "slidechange", function( event, ui ) { updateFile();} );
 		// Bind to the window function
 		$( window ).resize( function() { resize(); } );
 	}
 );
 
+function updateFile(event, ui){
+	var slide_val = ui.value;	
+	console.log(slide_val);
+}
 /**
  * Resize the content pane
  */
@@ -75,7 +79,10 @@ function initEditor() {
  */
 function initTimeline() {
 	// Initialie the slider
-	$( "#slider" ).slider( {disabled:false} );
+	$( "#slider" ).slider( {disabled:false, slide: updateFile} );
+	var max = $( ".selector" ).slider( "option", "max" );
+	
+
 }
 
 
@@ -94,6 +101,7 @@ function initIcons() {
 function toggleTimeline() {
 	// Toggle the slider
 	$('#slide_container').toggle();
+	var max = $( ".selector" ).slider( "option", "max" );
 	
 	if($('#slide_container').css( 'display' ) === 'none' ){
 		$('#content').css('margin-top','41px');
