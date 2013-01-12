@@ -3,91 +3,19 @@
 	<head>
 		<title>Collabb.it</title>
 		<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
-
+		<link rel="icon" href="../images/favicon.ico" sizes="16x16 32x32 48x48" type="image/vnd.microsoft.icon" />
+		<link rel="icon" href="../images/collabbit_16x16.png" sizes="16x16" type="image/png" />
+		<link rel="icon" href="../images/collabbit_32x32.png" sizes="32x32" type="image/png" />
+		<link rel="icon" href="../images/collabbit_48x48.png" sizes="48x48" type="image/png" />
+		<link rel="icon" href="../images/collabbit_64x64.png" sizes="64x64" type="image/png" />
+		<link rel="icon" href="../images/collabbit_128x128.png" sizes="128x128" type="image/png" />
+		<link rel="icon" href="../images/collabbit_256x256.png" sizes="256x256" type="image/png" />
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
 
-		<style>
-			section {
-				padding-top: 40px;
-				padding-bottom: 40px;
-				min-height: 200px;
-			}
-
-			section#top {
-				background: #e9fcff url( ../images/mainlogo.png ) no-repeat center center;
-				height: 400px;
-				padding: 50px 0 10px;
-			}
-
-			section#about {
-				background: #fff;
-			}
-
-			section#contact {
-				background: #ebebeb;
-			}
-
-			section#team {
-				background: #000;
-				color: #fff;
-			}
-
-			.btn-success{
-				background: #40bce2;
-				font-weight: bold;
-			}
-
-			.btn-success:hover {
-				background: #ff86d6;
-			}
-		</style>
-
+		<script src="../js/json2.min.js"></script>
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
-
-		<script>
-			/**
-			 * Shuffle the string
-			 */
-			String.prototype.shuffle = function () {
-				var a = this.split(""),
-					n = a.length;
-
-				for(var i = n - 1; i > 0; i--) {
-					var j = Math.floor(Math.random() * (i + 1));
-					var tmp = a[i];
-					a[i] = a[j];
-					a[j] = tmp;
-				}
-
-				return a.join("");
-			}
-
-			/**
-			 * Create a new Document
-			 */
-			function createNewDocument() {
-				// Create a soup to pull from
-				var soup = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-					documentId = "",
-					length = 6;
-				
-				// Shuffle the soup
-				soup = soup.shuffle();
-
-				// Loop until you have a sufficiently long string
-				while( documentId.length < length ) {
-					// Create a position
-					var pos = Math.round( Math.random() * soup.length ) + 1
-
-					// Append the document id
-					documentId += soup.charAt( pos );
-				}
-
-				// Redirect to the new location
-				window.location.href = "/edit/" + documentId;
-			}
-		</script>
 	</head>
 
 	<body>
@@ -115,7 +43,7 @@
 					<div class="span6 pagination-centered">
 						<h1>Collaborate. Edit. Enjoy.</h1>
 						<br><br>
-						<button class="btn btn-success btn-large" onClick="createNewDocument();">Create New Document</button>
+						<button id="btnLogin" class="btn btn-success btn-large">Create New Document</button>
 					</div>
 				</div>
 			</section>
@@ -133,10 +61,10 @@
 
 						<div class="row-fluid">
 							<div class="span6">
-								<img src="../images/godaddy.png" style="height: 100px;" alt="Go Daddy"/>
+								<a href="http://www.godaddy.com"><img src="../images/godaddy.png" style="height: 100px;" alt="Go Daddy"/></a>
 							</div>
 							<div class="span6">
-								<img src="../images/signalfire.png" style="height: 100px;" alt="Signal Fire"/>
+								<a href="http://www.signalfire.com"><img src="../images/signalfire.png" style="height: 100px;" alt="Signal Fire"/></a>
 							</div>
 						</div>
 					</div>
@@ -206,24 +134,25 @@
 						<div class="span6 pagination-centered">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="nav-header">Student Members</li>
-								<li>Xinan Wang</li>
-								<li>Brendan Conron</li>
-								<li>Jeremy Pitzeruse</li>
-								<li>Sindhu Suryanarayana</li>
+								<li><a href="http://www.linkedin.com/pub/xinan-wang/25/783/b2a" target="linkedIn">Xinan Wang</a></li>
+								<li><a href="http://www.linkedin.com/pub/brendan-conron/52/22/611" target="linkedIn">Brendan Conron</a></li>
+								<li><a href="http://www.linkedin.com/in/jpitzeruse" target="linkedIn">Jeremy Pitzeruse</a></li>
+								<li><a href="mailto:sindhu22@gmail.com" target="linkedIn">Sindhu Suryanarayana</a></li>
 							</ul>
 						</div>
 						<div class="span6 pagination-centered">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="nav-header">GoDaddy Members</li>
-								<li>Guy Ellis</li>
-								<li>Aaron Silvas</li>
-								<li>Lindsay Donaghe</li>
-								<li>Stephen Commisso</li>
+								<li><a href="http://www.linkedin.com/in/wildfiction" target="linkedIn">Guy Ellis</a></li>
+								<li><a href="http://www.linkedin.com/pub/aaron-silvas/6/762/581" target="linkedIn">Aaron Silvas</a></li>
+								<li><a href="http://www.linkedin.com/in/lindsayd" target="linkedIn">Lindsay Donaghe</a></li>
+								<li><a href="http://www.linkedin.com/in/stevecommisso" target="linkedIn">Stephen Commisso</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</section>
 		</div>
+		<script src="../js/index.js"></script>
 	</body>
 </html>
