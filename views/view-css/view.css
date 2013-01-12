@@ -4,6 +4,7 @@ html, body {
 	height:100%;
 
 }
+
 iframe{
 	width:100%;
 	height:100%;	
@@ -12,8 +13,7 @@ iframe{
 #tablet_view, #mobile_view{
 	display:none;
 }
-.navbar .nav,
-.navbar .nav > li {
+.navbar .nav, .navbar .nav > li {
     float:none;
     display:inline-block;
     *display:inline; /* ie7 fix */
@@ -31,4 +31,13 @@ ul{
 
 .preview_tab{
 	font-size:2.5em;
+}
+
+#main_container{
+	margin-top:40%;
+	margin-bottom:45%;
+	height:10%;
+	width:100%;
+	text-align:center;
+	position:absolute;
 }
