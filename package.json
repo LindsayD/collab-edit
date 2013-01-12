@@ -1,5 +1,5 @@
 {
-	"name": "Collabbit",
+	"name": "Collabb.it",
 	"description": "Collaboratively code with your friends and Family",
 	"author": "Jeremy Pitzeruse <jxp5688@rit.edu>, <ADD YOUR NAME HERE>",
 	"version": "0.0.1",
@@ -13,7 +13,8 @@
 		"jade": "0.20.0",
 		"mongoose": "~3.5.0",
 		"socket.io": "0.8.7",
-		"async": "0.1.22"
+		"async": "0.1.22",
+		"winser": "*"
 	},
 	"devDependencies": {
 		"vows": "0.5.x",
