@@ -15,7 +15,6 @@ exports.registerRoutes = function (server) {
 	// LOGIN
 	server.get('/currentUser', function (req, res) {
 		sessionMgr.getSessionData(req, true, function (currentUser){
-			db.disconnect();
 			var currentUserJson = JSON.stringify(currentUser);
 			console.log("CURRENT USER DATA: " + currentUserJson);
 			
@@ -31,11 +30,8 @@ exports.registerRoutes = function (server) {
 	server.post('/login', function (req, res) {
 		var loginData = JSON.stringify(req.body);
 		console.log("LOGIN DATA: " + loginData);
-		db.connect();
-		sessionMgr.setSessionData(req, req.body.emailAddress);
-		
+		sessionMgr.setSessionData(req, req.body.emailAddress);		
 		sessionMgr.getSessionData(req, true, function (currentUser){
-			db.disconnect();
 			res.json(currentUser);
 		});
 	});
@@ -48,7 +44,7 @@ exports.registerRoutes = function (server) {
 			function (callback) {
 				// get current user session
 				sessionMgr.getSessionData(req, true, function (currentUser){
-					console.log("Attempting to load document " + documentId + " as user " + JSON.stringify(currentUser));
+					console.log("Attempting to load document " + documentId + " as user " + req.ip + ", " + JSON.stringify(currentUser));
 					if (currentUser === null || currentUser.emailAddress === null) {
 						// No user available -- user needs to log in
 						callback(null, null);
@@ -67,7 +63,7 @@ exports.registerRoutes = function (server) {
 					return;
 				}
 				// create document session or join one
-				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, docKeys.documentId, null, callback);
+				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null, callback);
 			}],
 			function (err, data) {
 				if (err !== null) {

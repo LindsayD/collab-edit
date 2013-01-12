@@ -40,6 +40,7 @@ var emitChange = function (document, emailAddress, socket, callback) {
 	
 	// Change detected, emit back to the client
 	var change = vm.convertToDocumentChangeViewModel(document, emailAddress);
+	socket.broadcast.to(document.documentId).emit('edit', change);
 	socket.emit('edit', change);	
 };
 
@@ -48,13 +49,12 @@ exports.recordDocumentChange = function (documentChange, socket) {
 		documentId = documentChange.documentId,
 		newText = documentChange.text;
 	
-	db.connect();
 	async.waterfall([
 			function (callback) { getDoc(documentId, callback); },
 			function (doc, callback) { saveDoc(newText, doc, callback); },
 			function (doc, callback) { emitChange(doc, changingUser, socket, callback); }
 		],
 		function (err, result) {
-			db.disconnect();
+			if (err) { console.log("ERROR Record document change failed: " + err); }
 		});
 };
