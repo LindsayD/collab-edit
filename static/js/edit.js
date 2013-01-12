@@ -101,8 +101,8 @@ function initIcons() {
 function toggleTimeline() {
 	// Toggle the slider
 	$('#slide_container').toggle();
-	var max = $( ".selector" ).slider( "option", "max" );
-	
+	var max = $( "#slider" ).slider( "option", "max" );
+	$('#slider').slider('value', max);
 	if($('#slide_container').css( 'display' ) === 'none' ){
 		$('#content').css('margin-top','41px');
 	}else{
