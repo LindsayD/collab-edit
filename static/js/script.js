@@ -13,7 +13,7 @@ function sessionStart(data, docId) {
 	if (typeof(data) !== 'undefined' && data !== null && data.sessionId !== null) {
 		$('#username').text(data.username);
 		$('#gravatar').attr('src', data.gravatar.avatar + '?s=50');
-		getUserName($('#username'), data.gravatar.profile);
+		getUserName($('#username'), data.gravatar.profile); 
 	}
 	else {
 		// TODO - handle if user doesn't enter an email address
@@ -28,11 +28,11 @@ function getDocId() {
 }
 
 function getUserName(elName, profileUrl) {
-	console.log(profileUrl);
 	$.ajax({
-		url: profileUrl + '?s=80',
+		url: profileUrl,
 		type: 'GET',
 		dataType: 'jsonp',
+		crossDomain: 'true',
 		success: function(data) {
 			//alert(data.entry[0].name.givenName);
 			var name = "";
@@ -40,7 +40,7 @@ function getUserName(elName, profileUrl) {
 				name = data.entry[0].name.givenName;
 			if (name != "") elName.text(name);
 		}
-	});
+	}); 
 }
 
 $(document).ready(function() {   
@@ -60,12 +60,14 @@ $(document).ready(function() {
   socket.on('joined_user', function(data) {
 	//alert('added ' + data.username);
 	var users = $('#userlist');
-	users.append(
-		$('<li/>')
-			.append($('<img />').attr('src', data.gravatar.avatar))
-			.append($('<br />'))
-			.append($('<span />').text(data.username))
-	);
+	var elUser = $('<li />')
+		.append($('<img />').attr('src', data.gravatar.avatar))
+		.append($('<br />'))
+		.append($('<span />').text(data.username));
+		
+	users.append(elUser);
+	getUserName(elUser.children('span'), data.gravatar.profile);
+	
 	$('#usercount').text(users.children().length);
   });
   
