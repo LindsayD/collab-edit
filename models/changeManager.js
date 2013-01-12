@@ -35,7 +35,7 @@ exports.getOrCreateDocument = function (documentId, callback) {
 			// Create the doc
 			var doc = new db.Models.Document({
 				_id: documentId,
-				revisionNum: 1,
+				revisionNum: 0,
 				boilerplate: template,
 				text: template
 			});
