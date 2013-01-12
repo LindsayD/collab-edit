@@ -37,19 +37,51 @@ server.error(function(err, req, res, next){
 });
 server.listen( port );
 
+var docs = {};
+
 //Setup Socket.IO
 var io = io.listen(server);
 io.sockets.on('connection', function(socket){
 	console.log('Client Connected');
-	socket.on('message', function(data){
-		socket.broadcast.emit('server_message',data);
-		socket.emit('server_message',data);
+
+	socket.on('start_session', function(data) {
+		var room = data.docId;
+		socket.join(room);
+		var session = getSession(data.username, room);
+		socket.emit('user_session', session);
+		console.log('joining user to doc id ' + room);
+		socket.broadcast.to(room).emit('joined_user', session);
+		socket.emit('joined_user', session);
 	});
+	
 	socket.on('disconnect', function(){
 		console.log('Client Disconnected.');
 	});
 });
 
+function getSession(username, docId) {
+	// TODO - pull the user session from the combo of the doc id and the IP address
+	var session = typeof(username) !== 'undefined' && username !== null ? { 
+		sessionId: 1,
+		docId: docId,
+		username: username, 
+		gravatar: getGravatar(username)
+	} :
+	{
+		sessionId: null
+	};
+	
+	return session;
+}
+
+//x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
+//img pic: http://www.gravatar.com/avatar/9e64baef8549d829306f7e36140b3b2a?s=80
+function getGravatar(username) {
+	var crypto = require('crypto');
+	var hash = crypto.createHash('md5').update(username).digest("hex"); 
+	return 'http://www.gravatar.com/avatar/' + hash;
+	console.log(hash);// 9b74c9897bac770ffc029102a200c5de
+}
 
 ///////////////////////////////////////////
 //              Routes                   //
@@ -64,6 +96,8 @@ server.get('/', function(req,res){
 
 // STRICTLY EDIT
 server.get( '/edit/:id', function( req, res ) {
+	// create session or join one
+	//initSession(req.params.id);
 	// Load the HTML view
 	res.sendfile( 'views/edit.html' );
 });
