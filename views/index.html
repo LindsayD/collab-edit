@@ -24,7 +24,14 @@
 			}
 
 			section#contact {
-				background: #ebebeb;
+				background: #fff;
+			}
+
+			section#contact .well {
+				margin-left: auto;
+				margin-right: auto;
+				text-align: left;
+				width: 800px;
 			}
 
 			section#team {
@@ -145,55 +152,57 @@
 
 			<!-- CONTACT -->
 			<section id="contact">
-				<div class="container-fluid">
-					<h1>Contact Collabb.it</h1>
+				<div class="well">
+					<div class="container-fluid">
+						<h1>Contact Collabb.it</h1>
 
-					<form method="post" action="" id="contactform">
-						<fieldset>
-							<!-- Name -->
-							<div class="clearfix">
-								<label for="name">
-									Your Name<span class="help-required">*</span>
-								</label>
-								<div class="input">
-									<input type="text" name="contactname" id="contactname" value="" class="span6 required" role="input" aria-required="true" />
+						<form method="post" action="" id="contactform">
+							<fieldset>
+								<!-- Name -->
+								<div class="clearfix">
+									<label for="name">
+										Your Name<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="contactname" id="contactname" value="" class="span6 required" role="input" aria-required="true" />
+									</div>
 								</div>
-							</div>
-							
-							<!-- Email -->
-							<div class="clearfix">
-								<label for="email">
-									Your Email<span class="help-required">*</span>
-								</label>
-								<div class="input">
-									<input type="text" name="email" id="email" value="" class="span6 required email" role="input" aria-required="true" />
+								
+								<!-- Email -->
+								<div class="clearfix">
+									<label for="email">
+										Your Email<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="email" id="email" value="" class="span6 required email" role="input" aria-required="true" />
+									</div>
 								</div>
-							</div>
 
-							<!-- Subject -->
-							<div class="clearfix">
-								<label for="subject">
-									Subject<span class="help-required">*</span>
-								</label>
-								<div class="input">
-									<input type="text" name="subject" id="subject" value="" class="span6 required" role="input" aria-required="true" />
+								<!-- Subject -->
+								<div class="clearfix">
+									<label for="subject">
+										Subject<span class="help-required">*</span>
+									</label>
+									<div class="input">
+										<input type="text" name="subject" id="subject" value="" class="span6 required" role="input" aria-required="true" />
+									</div>
 								</div>
-							</div>
 
-							<!-- Message -->
-							<div class="clearfix">
-								<label for="message">Message<span class="help-required">*</span></label>
-								<div class="input">
-									<textarea rows="8" name="message" id="message" class="span10 required" role="textbox" aria-required="true"></textarea>
+								<!-- Message -->
+								<div class="clearfix">
+									<label for="message">Message<span class="help-required">*</span></label>
+									<div class="input">
+										<textarea rows="8" name="message" id="message" class="span10 required" role="textbox" aria-required="true"></textarea>
+									</div>
 								</div>
-							</div>
 
-							<div class="actions">
-								<input type="submit" value="Send Your Message" name="submit" id="submitButton" class="btn primary" title="Click here to submit your message!" />
-								<input type="reset" value="Clear Form" class="btn" title="Remove all the data from the form." />
-							</div>
-						</fieldset>
-					</form>
+								<div class="actions">
+									<input type="submit" value="Send Your Message" name="submit" id="submitButton" class="btn primary" title="Click here to submit your message!" />
+									<input type="reset" value="Clear Form" class="btn" title="Remove all the data from the form." />
+								</div>
+							</fieldset>
+						</form>
+					</div>
 				</div>
 			</section>
 
