@@ -63,25 +63,21 @@ function initEditor() {
  * Initialize the timeline component
  */
 function initTimeline() {
-	// Initialize the Slider
-	$( "#slider" ).slider( {
-			value:100,
-			min: 0,
-			max: 500,
-			step: 50,
-			slide: function( event, ui ) {
-	 			
-			}
-		}
-	);
+	// Initialie the slider
+	$( "#slider" ).slider( {disabled:false} );
 
-	//toggle timeline
+	// Toggle the view of the timeline
 	$("#timeline-icon").click( function() {
-			$('#slider').fadeIn('fast');
-		}
-	);
+		// Toggle the slider
+		$('#slider').toggle();
+
+		// Resize the div
+		resize();
+	});
 }
 
+//
+// Toggle the preview
 function togglePreview() {
 	$( ".view" ).toggle();
 	$( ".editor").toggleClass( "span6" );
