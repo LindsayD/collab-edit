@@ -1,16 +1,17 @@
 var crypto = require('crypto');
 
+var  getGravatar = function (emailAddress) {
+	//x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
+	//img pic: http://www.gravatar.com/avatar/9e64baef8549d829306f7e36140b3b2a?s=80
+	var hash = crypto.createHash('md5').update(emailAddress).digest("hex"); 
+	return { 
+		avatar: 'http://www.gravatar.com/avatar/' + hash, 
+		profile: ' http://en.gravatar.com/profile/' + hash + '.json'
+	};
+};
+
 exports.convertSessionToViewModel = function (dbSession) {
-	var session = null,
-		getGravatar = function (emailAddress) {
-			//x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
-			//img pic: http://www.gravatar.com/avatar/9e64baef8549d829306f7e36140b3b2a?s=80
-			var hash = crypto.createHash('md5').update(emailAddress).digest("hex"); 
-			return { 
-				avatar: 'http://www.gravatar.com/avatar/' + hash, 
-				profile: ' http://en.gravatar.com/profile/' + hash + '.json'
-			};
-		};
+	var session = null;
 		
 	if (dbSession === undefined || dbSession === null) {
 		session = {
