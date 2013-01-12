@@ -45,6 +45,13 @@ exports.Schema.session = new mongoose.Schema({
 	documentId:		String		// The document currently opened by the user, if any
 });
 exports.Schema.session.statics.findByDocumentId = function (documentId, callback) {
-	this.find({ documentId: documentId }, callback);
+	this.find({ documentId: documentId })
+		.sort("emailAddress")
+		.exec(callback);
+};
+exports.Schema.session.statics.findByEmailAddress = function (emailAddress, callback) {
+	this.find({ emailAddress: emailAddress })
+		.sort("-lastActivity")
+		.exec(callback);
 };
 exports.Models.Session = mongoose.model("Session", exports.Schema.session);
