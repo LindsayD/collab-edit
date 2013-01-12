@@ -3,6 +3,8 @@ var connect = require('connect'),
 	express = require('express'),
 	io = require('socket.io'),
 	db = require('./dbmodel/collabModels'),
+	vm = require('./models/socketModels'),
+	changeMgr = require('./models/changeManager'),
 	port = (process.env.PORT || 80);
 
 // Setup Express
@@ -48,28 +50,25 @@ io.sockets.on('connection', function(socket){
 	socket.on('start_session', function(data) {
 		db.connect();
 	
-		var room = data.docId;
+		var room = data.documentId;
 		socket.join(room);
-		var session = getSession(data.username, room);
-		socket.emit('user_session', session);
-		console.log('joining user to doc id ' + room);
-		addUserToDocument(session.username, room);
 		
-		socket.broadcast.to(room).emit('joined_user', session);
-		socket.emit('joined_user', session);
-		getUsers(room, function (err, users) {
+		console.log('joining user to doc id ' + room);
+		addUserToDocument(data.emailAddress, room, socket, function (err, users) {
 			db.disconnect();
 			if (err) {
+				console.log("ERROR: " + JSON.stringify(err));
 				// TODO - Handle Error
 			}
 			else {
-				var i;
-				for (i = 0; i < users.length; i++) {
-					socket.emit('joined_user', getSession(users[i].emailAddress, room));
-				}
+				console.log("Login successful...");
 			}
-		});
+		});		
 		
+	});
+	
+	socket.on('edit', function(data) {
+		changeMgr.recordDocumentChange(data, socket);
 	});
 	
 	socket.on('disconnect', function(){
@@ -77,38 +76,69 @@ io.sockets.on('connection', function(socket){
 	});
 });
 
-function getSession(username, docId) {
-	// TODO - pull the user session from the combo of the doc id and the IP address
-	var session = typeof(username) !== 'undefined' && username !== null ? { 
-		sessionId: 1,
-		docId: docId,
-		username: username, 
-		gravatar: getGravatar(username)
-	} :
-	{
-		sessionId: null
-	};
-	
-	return session;
-};
-
-function addUserToDocument(emailAddress, docId, callback) {
-	var session = new db.Models.Session({
-		emailAddress: emailAddress,
-		ipAddress: "1.1.1.1",
-		lastActivity: new Date(),
-		userAgent: "chrome",
-		sessionKey: "abc123",
-		documentId: docId
-	});
-	console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
-	console.log(JSON.stringify(session));
-	session.save(function (err, saved) {
-		if (err) { console.log("Save session failed."); }
-		console.log("Saved session: " + JSON.stringify(saved));
-		if (callback) { // optional callback
-			callback(err, saved);
+function addUserToDocument(emailAddress, docId, socket, callback) {
+	// Get Users
+	getUsers(docId, function (e, users) {
+		if (e) {
+			console.log("Get users failed.");
+			callback(e, null);
+			return;
 		}
+		
+		// Check if current user is already logged in
+		var userSession = null,
+			emailLower = null,
+			i, s;
+		if (emailAddress === undefined) { emailAddress = null; }
+		if (emailAddress !== null) {
+			emailLower = emailAddress.toLowerCase();
+		}
+		for (i = 0; i < users.length; i++) {
+			socket.emit('joined_user', vm.convertSessionToViewModel(users[i]));
+			if (emailLower !== null && users[i].emailAddress.toLowerCase() === emailLower) {
+				// If so, update timestamp
+				console.log("User \"" + emailAddress + "\" already logged in. Updating activity timestamp...");
+				userSession = users[i];
+				userSession.lastActivity = new Date();
+			}
+		}
+		
+		// Otherwise create new entity
+		if (userSession === null) {
+			if (emailAddress !== null) {
+				userSession = new db.Models.Session({
+					emailAddress: emailAddress,
+					ipAddress: "1.1.1.1", // TODO: Get this stuff from the request
+					lastActivity: new Date(),
+					userAgent: "chrome",
+					sessionKey: "abc123",
+					documentId: docId
+				});
+				console.log("Adding user \"" + emailAddress + "\" to document \"" + docId + "\".");
+				console.log(JSON.stringify(userSession));
+				s = vm.convertSessionToViewModel(userSession);
+			}
+			socket.emit('user_session', s);	
+			if (emailAddress !== null) {
+				socket.emit('joined_user', s);
+				socket.broadcast.to(docId).emit('joined_user', s);
+				console.log("Broadcast new user");
+			}
+		}
+		else {
+			// User already logged in
+			s = vm.convertSessionToViewModel(userSession);
+			socket.emit('user_session', s);	
+		}
+		
+		// Broadcast login to room
+		
+		// update the entity
+		userSession.save(function (err, saved) {
+			if (err) { console.log("Save session failed."); }
+			console.log("Saved session: " + JSON.stringify(saved));
+			callback(err, users);
+		});
 	});
 };
 
@@ -123,18 +153,6 @@ function getUsers(docId, callback) {
 		}
 		callback(err, data);
 	});
-}
-
-//x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
-//img pic: http://www.gravatar.com/avatar/9e64baef8549d829306f7e36140b3b2a?s=80
-function getGravatar(username) {
-	var crypto = require('crypto');
-	var hash = crypto.createHash('md5').update(username).digest("hex"); 
-	return { 
-		avatar: 'http://www.gravatar.com/avatar/' + hash, 
-		profile: ' http://en.gravatar.com/profile/' + hash + '.json'
-	};
-	console.log(hash);// 9b74c9897bac770ffc029102a200c5de
 }
 
 ///////////////////////////////////////////
@@ -185,4 +203,4 @@ function NotFound(msg){
 
 //
 //
-console.log('Listening on http://0.0.0.0:' + port );
+console.log('Listening on http://localhost:' + port );
