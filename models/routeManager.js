@@ -58,27 +58,20 @@ exports.registerRoutes = function (server) {
 				});
 			},
 			function (docKeys, callback) {
-				if (docKeys === null) {
-					callback(null, null);
-					return;
+				if (docKeys !== null) {
+					// create document session or join one
+					sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null, callback);
 				}
-				// create document session or join one
-				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null, callback);
+				callback(null, docKeys);	
 			}],
 			function (err, data) {
 				if (err !== null) {
 					console.log("ERROR loading document: " + JSON.stringify(err));
 					throw err;
 				}
-				else if (data !== null) {
+				else {
 					res.sendfile( 'views/edit-template.html' );
 					//res.sendfile( 'views/edit.html' );
-				}
-				else{
-					// unable to login
-					console.log("Redirecting to login page...");
-					res.writeHead(302, { 'Location': '/' });
-					res.end();
 				}
 			});
 	});
