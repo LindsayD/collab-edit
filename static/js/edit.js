@@ -79,7 +79,7 @@ function initEditor() {
  */
 function initTimeline() {
 	// Initialie the slider
-	$( "#slider" ).slider( {disabled:false, slide: updateFile} );
+	$( "#slider" ).slider( {disabled:false, slide: updateFile, value: 100} );
 	var max = $( ".selector" ).slider( "option", "max" );
 	
 
