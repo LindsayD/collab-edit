@@ -18,8 +18,7 @@ exports.convertSessionToViewModel = function (dbSession) {
 			emailAddress: null,
 			username: null,
 			sessionKey: null,
-			documentId: null,
-			gravatar: null
+			documentId: null
 		};
 	}
 	else {
