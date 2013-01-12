@@ -65,7 +65,7 @@ function setCurrentUser() {
 
 		getUserName(data.gravatar.profile, function(name) {
 			if (typeof(name) === 'undefined' || name === "") name = data.emailAddress;
-			$('#currentUser').html('<div>Welcome back, <img src="' + data.gravatar.avatar + '?s=30" /> ' + name + '</div>');
+			$('#currentUser').html('<div>Welcome back,<br/><img src="' + data.gravatar.avatar + '?s=30" /> ' + name + '</div>');
 		});
 	});
 };
