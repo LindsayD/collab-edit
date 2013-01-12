@@ -5,7 +5,7 @@
 		<title>Collabb.it</title>
 
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
-
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
 		<style>
 			#content {
 				margin-top: 41px;
@@ -160,8 +160,12 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
 					</ul> 
 					
 					<ul class="nav pull-right">
+                    	<!-- ==================== TIMELINE ================= -->
+                    	<li><i class="icon-time icon-4x"></i></li>
+                        <li class="divider-vertical"></li>
 						<!-- ==================== USERS ==================== -->
 						<li class="dropdown">
+                        
 							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
 							<ul id="usersmenu" class="dropdown-menu" role="menu" aria-labelledby="dropusers">
 								<li><a tabindex="-1" href="#">Actively Editing</a></li>
@@ -179,7 +183,7 @@ var template = "<html><head><title>CATS IN PAJAMAS!</title><style type='text/css
 				<div id="editor"></div>
 			</div>
 			<div class="span6 view">
-				<iframe id="source" height="100" width="100" seamless="seamless"></iframe>
+				<iframe id="source" height="100" width="100" seamless></iframe>
 				<!--
 				<div class="tabbable">
 					<ul class="nav nav-tabs">
