@@ -17,3 +17,19 @@
 	font-size:3em;
 	text-align:center;	
 }
+#gravatar {
+	margin: 2px 0 2px 5px;
+}
+#userlist ul {
+	list-item-style: none;
+}
+#userlist li {
+	padding: 5px 10px;
+	border-bottom: 1px solid #fff;
+	margin: 5px 0;
+}
+#userlist li span {
+	display: block;
+	padding: 3px;
+	font-style: bold;
+}

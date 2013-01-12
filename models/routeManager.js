@@ -1,4 +1,7 @@
-var sessionMgr = require('./sessionManager');
+var sessionMgr = require('./sessionManager'),
+	changeMgr = require('./changeManager'),
+	db = require("./../dbmodel/collabModels"),
+	async = require('async');
 
 exports.registerRoutes = function (server) {
 
@@ -11,7 +14,8 @@ exports.registerRoutes = function (server) {
 	
 	// LOGIN
 	server.get('/currentUser', function (req, res) {
-		sessionMgr.getSessionData(req, function (currentUser){
+		sessionMgr.getSessionData(req, true, function (currentUser){
+			db.disconnect();
 			var currentUserJson = JSON.stringify(currentUser);
 			console.log("CURRENT USER DATA: " + currentUserJson);
 			
@@ -27,20 +31,60 @@ exports.registerRoutes = function (server) {
 	server.post('/login', function (req, res) {
 		var loginData = JSON.stringify(req.body);
 		console.log("LOGIN DATA: " + loginData);
+		db.connect();
 		sessionMgr.setSessionData(req, req.body.emailAddress);
-		sessionMgr.getSessionData(req, function (currentUser){
+		
+		sessionMgr.getSessionData(req, true, function (currentUser){
+			db.disconnect();
 			res.json(currentUser);
 		});
 	});
 
 	// STRICTLY EDIT
 	server.get( '/edit/:id', function( req, res ) {
-		// create session or join one
-		//initSession(req.params.id);
-		// Load the HTML view
+		var documentId = req.params.id;
 		
-		res.sendfile( 'views/edit-template.html' );
-		//res.sendfile( 'views/edit.html' );
+		async.waterfall([
+			function (callback) {
+				// get current user session
+				sessionMgr.getSessionData(req, true, function (currentUser){
+					console.log("Attempting to load document " + documentId + " as user " + JSON.stringify(currentUser));
+					if (currentUser === null || currentUser.emailAddress === null) {
+						// No user available -- user needs to log in
+						callback(null, null);
+					}
+					var docKeys = {
+						documentId: documentId,
+						emailAddress: currentUser.emailAddress,
+						sessionKey: currentUser.sessionKey
+					};
+					callback(null, docKeys);
+				});
+			},
+			function (docKeys, callback) {
+				if (docKeys === null) {
+					callback(null, null);
+					return;
+				}
+				// create document session or join one
+				sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, docKeys.documentId, null, callback);
+			}],
+			function (err, data) {
+				if (err !== null) {
+					console.log("ERROR loading document: " + JSON.stringify(err));
+					throw new Error("ERROR loading document");
+				}
+				else if (data !== null) {
+					res.sendfile( 'views/edit-template.html' );
+					//res.sendfile( 'views/edit.html' );
+				}
+				else{
+					// unable to login
+					console.log("Redirecting to login page...");
+					res.writeHead(302, { 'Location': '/' });
+					res.end();
+				}
+			});
 	});
 
 	// STRICTLY VIEW
@@ -48,7 +92,6 @@ exports.registerRoutes = function (server) {
 		// Load the HTML view
 		res.sendfile( 'views/view.html' );
 	});
-
 
 	// A Route for Creating a 500 Error (Useful to keep around)
 	server.get('/500', function(req, res){
