@@ -31,7 +31,7 @@
 						<li><a href="#contact">Contact</a></li>
 						<li><a href="#team">The Team</a></li>
 					</ul>
-                    <ul class="nav pull-right">
+                    <!-- ul class="nav pull-right">
   						<li><div class="control-group">
     					<div class="controls">
       						<input type="text" id="inputEmail" placeholder="Email">
@@ -39,10 +39,10 @@
     					</div>
                     	</li>
   					
-                    </ul>
+                    </ul >
                     <div class="control-group">
     				<div class="controls">
-      				<button type="submit" class="btn" onclick="login($('#inputEmail').val());">Sign in</button>
+      				<button type="submit" class="btn" onclick="login($('#inputEmail').val());">Sign in</button -->
     			</div>
   			</div>
             </li>
@@ -62,11 +62,10 @@
 			<section id="top">
 				<div class="row-fluid">
 					<div class="span6 pagination-centered"></div>
-					<div class="span6 pagination-centered">
+					<div class="span6 pagination-centered" style="margin-left: -40px;">
 						<h1>Collaborate. Edit. Enjoy.</h1>
-						<br><br>
+						<div id="currentUser"><br/></div>
 						<button id="btnLogin" class="btn btn-success btn-large">Create New Document</button>
-						<div id="currentUser"></div>
 					</div>
 				</div>
 			</section>
