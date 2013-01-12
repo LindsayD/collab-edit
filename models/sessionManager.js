@@ -167,3 +167,16 @@ function getDocuments(emailAddress, callback) {
 		callback(err, data);
 	});
 };
+
+exports.getDocumentSessionByIpAddress = function (documentId, ipAddress, callback) {
+	console.log("Calling getDocumentSessionByIpAddress: " + documentId + ", " + ipAddress);
+	db.Models.Session.findByDocumentIdAndIpAddress(documentId, ipAddress, function (err, data) {
+		if (err) {
+			console.log("Error retrieving session: " + JSON.stringify(err));
+		}
+		else {
+			console.log("Retrieved session: " + JSON.stringify(data));
+		}
+		callback(err, data);
+	});
+};

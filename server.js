@@ -31,19 +31,25 @@ io.sockets.on('connection', function (socket){
 	console.log('Client Connected');
 
 	socket.on('start_session', function (data) {	
-		var room = data.documentId;
+		var room = data.documentId,
+			ipAddress = socket.handshake.address.address;
+		
+		console.dir("SOCKET IP " + ipAddress);
+			
 		socket.join(room);
 		
-		console.log('joining user to doc id ' + room);
-		sessionMgr.addUserToDocument(data.emailAddress, null, socket.handshake.address, room, socket, function (err, users) {
-			if (err) {
-				console.log("ERROR: " + JSON.stringify(err));
-				// TODO - Handle Error
-			}
-			else {
-				console.log("Login successful...");
-			}
-		});
+		sessionMgr.getDocumentSessionByIpAddress(room, ipAddress, function (err, session) {
+			console.log('joining user to doc id ' + room + ", user " + JSON.stringify(session));
+			sessionMgr.addUserToDocument(session.emailAddress, session.sessionKey, ipAddress, room, socket, function (err, users) {
+				if (err) {
+					console.log("ERROR: " + JSON.stringify(err));
+					// TODO - Handle Error
+				}
+				else {
+					console.log("Login successful...");
+				}
+			});
+		});		
 	});
 	
 	socket.on('edit', function (data) {

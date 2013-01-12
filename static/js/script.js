@@ -16,9 +16,7 @@ function sessionStart(data, docId) {
 		getUserName($('#username'), data.gravatar.profile); 
 	}
 	else {
-		// TODO - handle if user doesn't enter an email address
-		var email = window.prompt('Enter your email address to get started', '');
-		socket.emit('start_session', { emailAddress: email, documentId: docId });
+		socket.emit('start_session', { documentId: docId });
 	}
 }
 var socket;

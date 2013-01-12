@@ -15,7 +15,6 @@ exports.registerRoutes = function (server) {
 	// LOGIN
 	server.get('/currentUser', function (req, res) {
 		sessionMgr.getSessionData(req, true, function (currentUser){
-			db.disconnect();
 			var currentUserJson = JSON.stringify(currentUser);
 			console.log("CURRENT USER DATA: " + currentUserJson);
 			
@@ -31,11 +30,8 @@ exports.registerRoutes = function (server) {
 	server.post('/login', function (req, res) {
 		var loginData = JSON.stringify(req.body);
 		console.log("LOGIN DATA: " + loginData);
-		db.connect();
-		sessionMgr.setSessionData(req, req.body.emailAddress);
-		
+		sessionMgr.setSessionData(req, req.body.emailAddress);		
 		sessionMgr.getSessionData(req, true, function (currentUser){
-			db.disconnect();
 			res.json(currentUser);
 		});
 	});
