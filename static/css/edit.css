@@ -1,14 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 #slider{
-	display:none;
-	width:80%;
-	margin:0 auto;
-	clear:both;		
-}
-
-#slide_container{
-	width:100%;	
+	display:none;	
 }
 
 #fullscreen-icon,
