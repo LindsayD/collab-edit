@@ -2,6 +2,7 @@
 var connect = require('connect'),
 	express = require('express'),
 	io = require('socket.io'),
+	db = require('./dbmodel/collabModels'),
 	port = (process.env.PORT || 80);
 
 // Setup Express
@@ -52,10 +53,17 @@ io.sockets.on('connection', function(socket){
 		console.log('joining user to doc id ' + room);
 		socket.broadcast.to(room).emit('joined_user', session);
 		socket.emit('joined_user', session);
-		var users = getUsers(room);
-		for (var i=0; i < users.length; i++) {
-			socket.emit('joined_user', getSession(users[i], room));
-		}
+		getUsers(room, function (err, users) {
+			if (err) {
+				// TODO - Handle Error
+			}
+			else {
+				var i;
+				for (i = 0; i < users.length; i++) {
+					socket.emit('joined_user', getSession(users[i], room));
+				}
+			}
+		});
 	});
 	
 	socket.on('disconnect', function(){
@@ -78,9 +86,8 @@ function getSession(username, docId) {
 	return session;
 }
 
-function getUsers(docId) {
-	
-	return [];
+function getUsers(docId, callback) {
+	exports.Models.Session.findByDocumentId(docId, callback);
 }
 
 //x-domain jsonp profile data: http://en.gravatar.com/profile/9e64baef8549d829306f7e36140b3b2a.json?s=80&callback=jsonp_callback
