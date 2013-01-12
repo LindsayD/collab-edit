@@ -12,7 +12,8 @@ function updateViews() {
 function sessionStart(data, docId) {
 	if (typeof(data) !== 'undefined' && data !== null && data.sessionId !== null) {
 		$('#username').text(data.username);
-		$('#gravatar').attr('src', data.gravatar + '?s=50');
+		$('#gravatar').attr('src', data.gravatar.avatar + '?s=50');
+		getUserName($('#username'), data.gravatar.profile);
 	}
 	else {
 		// TODO - handle if user doesn't enter an email address
@@ -24,6 +25,15 @@ var socket;
 function getDocId() {
 	var path = window.location.pathname;
 	return path.substring(path.lastIndexOf('/') + 1);
+}
+
+function getUserName(elName, profileUrl) {
+	$.ajax({
+		url: profileUrl + '?s=80',
+		success: function(data) {
+			elName.text(data.name.givenName);
+		}
+	});
 }
 
 $(document).ready(function() {   
@@ -45,7 +55,7 @@ $(document).ready(function() {
 	var users = $('#userlist');
 	users.append(
 		$('<li/>')
-			.append($('<img />').attr('src', data.gravatar))
+			.append($('<img />').attr('src', data.gravatar.avatar))
 			.append($('<br />'))
 			.append($('<span />').text(data.username))
 	);

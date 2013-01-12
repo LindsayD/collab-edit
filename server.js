@@ -88,7 +88,10 @@ function getUsers(docId) {
 function getGravatar(username) {
 	var crypto = require('crypto');
 	var hash = crypto.createHash('md5').update(username).digest("hex"); 
-	return 'http://www.gravatar.com/avatar/' + hash;
+	return { 
+		avatar: 'http://www.gravatar.com/avatar/' + hash, 
+		profile: ' http://en.gravatar.com/profile/' + hash + '.json'
+	};
 	console.log(hash);// 9b74c9897bac770ffc029102a200c5de
 }
 
