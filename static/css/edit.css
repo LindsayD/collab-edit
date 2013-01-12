@@ -11,6 +11,12 @@
 	width:100%;	
 }
 
+#fullscreen-icon,
+#timeline-icon,
+#preview-icon {
+	margin-top: 12px;
+}
+
 #content {
 	margin-top: 41px;
 }

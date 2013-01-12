@@ -11,6 +11,12 @@ $( function() {
 		// Initialize the timeline
 		initTimeline();
 
+		// Initialize the icons
+		initIcons();
+
+		// Build the ACE view components
+		build_syntax();
+
 		// Resize the window
 		resize();
 
@@ -56,7 +62,7 @@ function initEditor() {
 	);
 	
 	// TODO Load from db document.text
-	editor.setValue(template);
+	editor.setValue( template );
 }
 
 /**
@@ -65,19 +71,32 @@ function initEditor() {
 function initTimeline() {
 	// Initialie the slider
 	$( "#slider" ).slider( {disabled:false} );
-
-	// Toggle the view of the timeline
-	$("#timeline-icon").click( function() {
-		// Toggle the slider
-		$('#slider').toggle();
-
-		// Resize the div
-		resize();
-	});
 }
 
-//
-// Toggle the preview
+
+/**
+ * Initialize the icons
+ */
+function initIcons() {
+	// Initialize the priview toggle
+	$("#timeline-icon").click( function() { toggleTimeline(); } );
+	$( "#preview-icon" ).click( function() { togglePreview(); } );
+}
+
+/**
+ * Toggle the Timeline
+ */
+function toggleTimeline() {
+	// Toggle the slider
+	$('#slider').toggle();
+
+	// Resize the div
+	resize();
+}
+
+/**
+ * Toggle the preview
+ */
 function togglePreview() {
 	$( ".view" ).toggle();
 	$( ".editor").toggleClass( "span6" );

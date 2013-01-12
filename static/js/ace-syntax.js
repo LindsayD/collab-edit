@@ -51,11 +51,11 @@ function build_syntax() {
 		var element = $( "<LI>" ).append(
 			$( "<A>", {
 					"href" : "#",
-					"data" : path
+					"data-path" : path
 				}
 			).click( function() {
 					// Set the syntax
-					set_syntax( $( this ).attr( "data" ) );
+					set_syntax( $( this ).attr( "data-path" ) );
 				}
 			).append( label )
 		);
@@ -69,6 +69,8 @@ function build_syntax() {
  * Set the syntax of the editor
  */
 function set_syntax( mode ) {
-	var editor = ace.edit( "editor" );
-	editor.getSession().setMode( mode );
+	try {
+		var editor = ace.edit( "editor" );
+		editor.getSession().setMode( mode );
+	} catch( e ) {}
 }
