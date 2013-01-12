@@ -2,7 +2,7 @@
 /* CSS Document */
 html, body {
 	height:100%;
-	background-color:#000000;
+
 }
 iframe{
 	
@@ -25,11 +25,11 @@ iframe{
 	margin:0 auto;
 	clear:both;
 	text-align:center;
-	border-bottom:3px solid black;
 	height:5%;
 }
 
-#tab_container ul li{
+#tab_container ul{
+list-style:none;
 
 }
 #tab_container ul li span {
@@ -43,46 +43,29 @@ iframe{
 //Code Player CSS
 
 .tabs  {margin: 100px 0; background: #000; padding: 50px 50px 29px 50px;}
+
 .tabs li{
-	float: left; position: relative;
+	float: left; 
+	width:33%;
+	border-top:1px solid #000000;
+	border-left:1px solid #000000;
+	border-right:1px solid #000000;
+	
 }
+
 .tabs span {
-	padding: 5px 40px; display: block; 
+	padding: 5px 40px; 
+	display: block; 
 	background: #ccc;
 	text-decoration: none;
 	color: #000;
-	
-	border-radius: 15px 15px 0 0;
+	font-size:4em;
 }
 .tabs .active {z-index: 3;}
-.tabs .active a {background: #999;}
+.tabs .active span {background: #FFFFFF;}
 
-.tabs .active:before, .tabs span:after, 
-.tabs .active span:before, .tabs .active span:after
-.tabs li:last
-{
-	content: "";
-}
 
-.tabs .active:before, .tabs .active:after {
-	background: #999;
-	width: 10px; height: 10px; display: block;
-	position: absolute; bottom: 0; z-index: 1;
-}
-.tabs .active:before { left: -10px; }
-.tabs .active:after { right: -10px; }
 
-.tabs .active span:before, .tabs .active span:after {
-	width: 20px; height: 20px; display: block;
-	position: absolute; bottom: 0;
-	background: #ccc;
-	z-index: 2;
-	
-	border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-}
-.tabs li span:before { left: -20px; }
-.tabs li span:after { right: -20px; }
 
-.tabs li:first-child.active span:before, .tabs li:last-child.active span:after {background: #000;}
+
+
