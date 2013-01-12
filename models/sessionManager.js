@@ -2,7 +2,15 @@ var connect = require('connect'),
 	db = require('./../dbmodel/collabModels'),
 	vm = require('./socketModels');
 
-exports.getSessionData = function (request, callback) {
+exports.setSessionData = function (request, emailAddress) {
+	var MSEC_IN_DAY = 86400000;
+	var MSEC_IN_MINUTE = 3600000;
+	var sessionKey = generateSessionKey();
+	request.session.sessionKey = sessionKey;
+	request.session.emailAddress = emailAddress;
+};
+
+exports.getSessionData = function (request, includeDocumentIds, callback) {
 	var currentUser = {
 		sessionKey: request.session.sessionKey || null,
 		emailAddress: request.session.emailAddress || null,
@@ -12,7 +20,7 @@ exports.getSessionData = function (request, callback) {
 		// If no current user, don't bother trying to retrieve documents
 		callback(currentUser);
 	}	
-	else {
+	else if (includeDocumentIds === true) {
 		// Get the currently edited docs
 		getDocuments(currentUser.emailAddress, function (err, data) {
 			if (err === null) {
@@ -24,14 +32,9 @@ exports.getSessionData = function (request, callback) {
 			callback(currentUser);
 		});
 	}
-};
-
-exports.setSessionData = function (request, emailAddress) {
-	var MSEC_IN_DAY = 86400000;
-	var MSEC_IN_MINUTE = 3600000;
-	var sessionKey = generateSessionKey();
-	request.session.sessionKey = sessionKey;
-	request.session.emailAddress = emailAddress;
+	else {
+		callback(currentUser);
+	}
 };
 
 var generateSessionKey = function () {
@@ -86,7 +89,9 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			emailLower = emailAddress.toLowerCase();
 		}
 		for (i = 0; i < users.length; i++) {
-			socket.emit('joined_user', vm.convertSessionToViewModel(users[i]));
+			if (socket !== null) {
+				socket.emit('joined_user', vm.convertSessionToViewModel(users[i]));
+			}
 			if (emailLower !== null && users[i].emailAddress.toLowerCase() === emailLower) {
 				// If so, update timestamp
 				console.log("User \"" + emailAddress + "\" already logged in. Updating activity timestamp...");
@@ -100,7 +105,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 			if (emailAddress !== null) {
 				userSession = new db.Models.Session({
 					emailAddress: emailAddress,
-					ipAddress: socket.handshake.address,
+					ipAddress: socket === null ? null : socket.handshake.address,
 					lastActivity: new Date(),
 					userAgent: "chrome",
 					sessionKey: "temp",
@@ -110,15 +115,17 @@ exports.addUserToDocument = function (emailAddress, sessionKey, documentId, sock
 				console.log(JSON.stringify(userSession));
 				s = vm.convertSessionToViewModel(userSession);
 			}
-			socket.emit('user_session', s);	
-			if (emailAddress !== null) {
+			if (socket !== null) {
+				socket.emit('user_session', s);	
+			}
+			if (emailAddress !== null && socket !== null) {
 				// Broadcast to room and self
 				socket.emit('joined_user', s);
 				socket.broadcast.to(documentId).emit('joined_user', s);
 				console.log("Broadcast new user");
 			}
 		}
-		else {
+		else if (socket !== null) {
 			// User already logged in, broadcast to self
 			s = vm.convertSessionToViewModel(userSession);
 			socket.emit('user_session', s);	

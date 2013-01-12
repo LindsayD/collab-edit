@@ -1,4 +1,6 @@
-var db = require("./../dbmodel/collabModels");
+var db = require("./../dbmodel/collabModels"),
+	sessionMgr = require('./sessionManager'),
+	async = require('async');
 
 var getDoc = function (documentId, callback) {
 	db.Models.Document.findById(documentId, function (err, doc) {

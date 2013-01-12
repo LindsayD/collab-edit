@@ -4,8 +4,8 @@ exports.Models = {};
 var mongoose = require("mongoose");
 
 // DB CONNECTIVITY
-exports.connect = function () {	
-	mongoose.connect("mongodb://50.62.76.170:13838/collabbit");
+exports.connect = function () {
+	var connection = mongoose.connect("mongodb://50.62.76.170:13838/collabbit");
 };
 
 exports.disconnect = function () {
