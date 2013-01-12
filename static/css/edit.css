@@ -1,18 +1,20 @@
 @charset "UTF-8";
 /* CSS Document */
-#slider{
-	display:none;	
+#slider_container{
+	display:none;
+	margin-top:41px;
 }
 
+#slider > a {
+	height:35px;
+}
 #fullscreen-icon,
 #timeline-icon,
 #preview-icon {
 	margin-top: 12px;
 }
 
-#forward_button, #back_button{
-	display:none;
-}
+
 .nav li:hover{
 	cursor:hand;
 	cursor:pointer;
