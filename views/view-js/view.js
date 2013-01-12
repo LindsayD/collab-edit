@@ -4,25 +4,26 @@ $(document).ready(function(){
 	$desk_view = $('#desktop_view');
 	$tab_view = $('#tablet_view');
 	$mob_view = $('#mobile_view');
+	//tab switching
 	$('li').click(function(){
 		var id = this.id;
 		if(id === "desktop_switch"){
-			$tab_view.fadeTo(1, 0);
-			$mob_view.fadeTo(1,0);
-			$desk_view.fadeTo(1, 1);
+			$tab_view.fadeOut('fast');
+			$mob_view.fadeOut('fast');
+			$desk_view.fadeIn('fast');
 		}else if(id === "tablet_switch"){
-			$mob_view.fadeTo(1,0);
-			$desk_view.fadeTo(1,0);
-			$tab_view.fadeTo(1, 1);
-			$tab_view.css('border', '5px solid green');
+			$mob_view.fadeOut('fast');
+			$desk_view.fadeOut('fast');
+			$tab_view.fadeIn('fast');
 		}else if(id == "mobile_switch"){
-			$desk_view.fadeTo(1, 0);
-			$tab_view.fadeTo(1, 0);	
-			$mob_view.fadeTo(1,1);
+			$desk_view.fadeOut('fast');
+			$tab_view.fadeOut('fast');	
+			$mob_view.fadeIn('fast');
 		}
 	});
 });
 
+//init function, currently sets page borders
 function init(){
 	var h = $('.tabs li').height();
 	$('#tab_container').height(h);	

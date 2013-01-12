@@ -2,6 +2,7 @@
 /* CSS Document */
 html, body {
 	height:100%;
+	background-color:#000000;
 }
 iframe{
 	
@@ -11,7 +12,7 @@ iframe{
 }
 
 #tablet_view, #mobile_view{
-	opacity:hidden;
+	display:none;
 }
 
 .tab{
@@ -32,9 +33,9 @@ iframe{
 
 }
 #tab_container ul li span {
-	border-top:2px solid green;
-	border-right:2px solid green;
-	border-left:2px solid green;
+	border-top:2px solid white;
+	border-right:2px solid white;
+	border-left:2px solid white;
 }
 #tab_container ul li span:hover{
 	background-color:orange;	
