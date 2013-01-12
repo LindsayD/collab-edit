@@ -127,7 +127,7 @@ exports.storeCursorPosition = function (documentId, emailAddress, lineNumber, ch
 			lineNumber: lineNumber,
 			charIndex: charIndex
 		};
-		cursorPositions[i].userPositions[userPositions.length] = newUser;
+		cursorPositions[i].userPositions[cursorPositions[i].userPositions.length] = newUser;
 		return cursorPositions[i].userPositions;
 	}
 	
