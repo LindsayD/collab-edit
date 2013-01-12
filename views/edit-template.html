@@ -2,25 +2,120 @@
 
 <html>
 	<head>
+		<title>Collabb.it</title>
+
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+
+		<style>
+			#content {
+				margin-top: 40px;
+			}
+		</style>
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
+
+		<script>
+			/**
+			 * LAZY LOAD
+			 */
+			$( function() {
+					// Resize the window
+					resize();
+
+					// Bind to the window function
+					$( window ).resize( function() { resize(); } );
+				}
+			);
+
+			/**
+			 * Resize the content pane
+			 */
+			function resize() {
+				// Set the height of the content div
+				$( "#content" ).height( $( window ).height() - $( "#content" ).offset().top );
+			}
+		</script>
 	</head>
 
 	<body>
+		<!-- NAVIGATION -->
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="#">Collabb.it</a>
-					<ul class="nav">
-						<!--#include file="menu.html"-->
+					<ul class="nav" role="navigation">
+						<!-- ==================== FILE ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropfile" role="button" data-toggle="dropdown" href="#">File <b class="caret"></b></a>
+							<ul id="filemenu" class="dropdown-menu" role="menu" aria-labelledby="dropfile">
+								<li><a tabindex="-1" href="#">New File</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Save</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Exit</a></li>
+							</ul>
+						</li>
+
+						<!-- ==================== EDIT ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropedit" role="button" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
+							<ul id="editmenu" class="dropdown-menu" role="menu" aria-labelledby="dropedit">
+								<li><a tabindex="-1" href="#">Undo</a></li>
+								<li><a tabindex="-1" href="#">Redo</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Cut</a></li>
+								<li><a tabindex="-1" href="#">Copy</a></li>
+								<li><a tabindex="-1" href="#">Paste</a></li>
+							</ul>
+						</li>
+
+						<!-- ==================== VIEW ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">View <b class="caret"></b></a>
+							<ul id="viewmenu" class="dropdown-menu" role="menu" aria-labelledby="dropview">
+								<li><a tabindex="-1" href="#">Full Screen</a></li>
+								<li><a tabindex="-1" href="#">Preview</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Timeline</a></li>
+							</ul>
+						</li>
+						
+						<!-- ==================== HELP ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="drophelp" role="button" data-toggle="dropdown" href="#">Help <b class="caret"></b></a>
+							<ul id="helpmenu" class="dropdown-menu" role="menu" aria-labelledby="drophelp">
+								<li><a tabindex="-1" href="#">Documentation</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">License</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">Developers</a></li>
+								</ul>
+						</li>
+					</ul> 
+					
+					<ul class="nav pull-right">
+						<!-- ==================== USERS ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
+							<ul id="usersmenu" class="dropdown-menu" role="menu" aria-labelledby="dropusers">
+								<li><a tabindex="-1" href="#">Actively Editing</a></li>
+								<li><a tabindex="-1" href="#">All Users</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 
-		<!--#include file="editor.html" -->
-		<!--#include file="view.html" -->
+		<!-- PAGE BODY -->
+		<div id="content" class="row-fluid">
+			<div class="span6">
+				<div id="editor">EDITOR</div>
+			</div>
+			<div class="span6">
+				<div id="view">PREVIEW</div>
+			</div>
+		</div>
 	</body>
 </html>
