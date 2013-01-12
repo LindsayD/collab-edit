@@ -5,10 +5,8 @@ html, body {
 
 }
 iframe{
-	
 	width:100%;
-	height:100%;
-	
+	height:100%;	
 }
 
 #tablet_view, #mobile_view{
@@ -34,52 +32,3 @@ ul{
 .preview_tab{
 	font-size:2.5em;
 }
-
-/*.tab{
-	
-}
-
-#tab_container{	
-	margin-top:2%;
-	width:100%;
-	margin:0 auto;
-	clear:both;
-	text-align:center;
-	height:5%;
-}
-
-#tab_container ul{
-list-style:none;
-
-}
-#tab_container ul li span {
-	border-top:2px solid white;
-	border-right:2px solid white;
-	border-left:2px solid white;
-}
-
-
-
-.tabs li{
-	float: left; 
-	width:33%;
-	border-top:1px solid #000000;
-	border-left:1px solid #000000;
-	border-right:1px solid #000000;
-	
-}
-
-.tabs span {
-	padding: 5px 40px; 
-	display: block; 
-	background: #ccc;
-	text-decoration: none;
-	color: #000;
-	font-size:4em;
-}*/
-
-
-
-
-
-
