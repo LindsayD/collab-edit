@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Collab.it</title>
+
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+
+		<style>
+			section {
+				padding-top: 40px;
+				height: 200px;
+			}
+
+			section#top {
+				background: #ebebeb;
+			}
+
+			section#about {
+				background: #fff;
+			}
+
+			section#contact {
+				background: #ebebeb;
+			}
+
+			section#team {
+				background: #fff;
+			}
+		</style>
+
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+
+		<script>
+			/**
+			 * Shuffle the string
+			 */
+			String.prototype.shuffle = function () {
+				var a = this.split(""),
+					n = a.length;
+
+				for(var i = n - 1; i > 0; i--) {
+					var j = Math.floor(Math.random() * (i + 1));
+					var tmp = a[i];
+					a[i] = a[j];
+					a[j] = tmp;
+				}
+
+				return a.join("");
+			}
+
+			/**
+			 * Create a new Document
+			 */
+			function createNewDocument() {
+				// Create a soup to pull from
+				var soup = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+					documentId = "",
+					length = 6;
+				
+				// Shuffle the soup
+				soup = soup.shuffle();
+
+				// Loop until you have a sufficiently long string
+				while( documentId.length < length ) {
+					// Create a position
+					var pos = Math.round( Math.random() * soup.length ) + 1
+
+					// Append the document id
+					documentId += soup.charAt( pos );
+				}
+
+				// Redirect to the new location
+				window.location.href = "/edit/" + documentId;
+			}
+		</script>
+	</head>
+
+	<body>
+		<!-- NAVBAR -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#">Collabb.it</a>
+
+					<ul class="nav">
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+						<li><a href="#team">The Team</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- PAGE -->
+		<div class="content">
+			<!-- TOP -->
+			<section id="top">
+				<div class="container-fluid">
+					<h1>Try Collabb.it</h1>
+					<button class="btn" onClick="createNewDocument();">Create New Document</button>
+				</div>
+			</section>
+
+
+			<!-- ABOUT -->
+			<section id="about">
+				<div class="container-fluid">
+					<h1>About Collabb.it</h1>
+					<p>Collabb.it is a web application that allows many users to edit the same document concurrently.  Users can join a document given a URL, create a new document and share the URL, or view a document being created.</p>
+				</div>
+			</section>
+
+			<!-- CONTACT -->
+			<section id="contact">
+				<div class="container-fluid">
+					<h1>Contact Collabb.it</h1>
+				</div>
+			</section>
+
+			<!-- TEAM -->
+			<section id="team">
+				<div class="container-fluid">
+					<h1>The Collabb.it Team</h1>
+					<ul>
+						<li class="header">Student Members</li>
+						<li>Xinan Wong</li>
+						<li>Brendan</li>
+						<li>Jeremy Pitzeruse</li>
+						<li>Sindhu</li>
+						<li>Tony Ho</li>
+					</ul>
+					<ul>
+						<li class="header">GoDaddy Members</li>
+						<li>Guy</li>
+						<li>Aaron Silvas</li>
+						<li>Lindsay Donaghe</li>
+						<li>Stephen Commisso</li>
+					</ul>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

@@ -1,22 +1,22 @@
-//setup Dependencies
-var connect = require('connect')
-		, express = require('express')
-		, io = require('socket.io')
-		, port = (process.env.PORT || 80);
+// Setup Dependencies
+var connect = require('connect'),
+	express = require('express'),
+	io = require('socket.io'),
+	port = (process.env.PORT || 80);
 
-//Setup Express
+// Setup Express
 var server = express.createServer();
-server.configure(function(){
-		server.set('views', __dirname + '/views');
-		server.set('view options', { layout: false });
-		server.use(connect.bodyParser());
-		server.use(express.cookieParser());
-		server.use(express.session({ secret: "shhhhhhhhh!"}));
-		server.use(connect.static(__dirname + '/static'));
-		server.use(server.router);
+server.configure( function(){
+		server.set( 'views', __dirname + '/views' );
+		server.set( 'view options', { layout : false } );
+		server.use( connect.bodyParser() );
+		server.use( express.cookieParser() );
+		server.use( express.session( { secret: "shhhhhhhhh!"}) );
+		server.use( connect.static( __dirname + '/static' ) );
+		server.use( server.router );
 });
 
-//setup the errors
+// Setup the errors
 server.error(function(err, req, res, next){
 		if (err instanceof NotFound) {
 				res.render('404.jade', { locals: { 
@@ -37,7 +37,7 @@ server.error(function(err, req, res, next){
 });
 server.listen( port );
 
-//Setup Socket.IO
+// Setup Socket.IO
 var io = io.listen(server);
 io.sockets.on('connection', function(socket){
 	console.log('Client Connected');
@@ -58,56 +58,41 @@ io.sockets.on('connection', function(socket){
 /////// ADD ALL YOUR ROUTES HERE  /////////
 
 server.get('/', function(req,res){
-	res.render('index.jade', {
-		locals : { 
-			title : 'Collabb.it',
-			description: 'Collaborate on code with your friends and family.',
-			author: '',
-			analyticssiteid: 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/index.html' );
 });
 
 // STRICTLY EDIT
 server.get( '/edit/:id', function( req, res ) {
-	res.render( 'edit.jade', {
-		locals : {
-			title : 'Edit Page',
-			description : '',
-			author : '',
-			analyticssiteid : 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/edit.html' );
 });
 
 // STRICTLY VIEW
 server.get( '/view/:id', function( req, res ) {
-	res.render( 'view.jade', {
-		locals : {
-			title : 'View Page',
-			description : '',
-			author : '',
-			analyticssiteid : 'XXXXXXX'
-		}
-	});
+	// Load the HTML view
+	res.sendfile( 'views/view.html' );
 });
 
 
-//A Route for Creating a 500 Error (Useful to keep around)
+// A Route for Creating a 500 Error (Useful to keep around)
 server.get('/500', function(req, res){
 		throw new Error('This is a 500 Error');
 });
 
-//The 404 Route (ALWAYS Keep this as the last route)
+// The 404 Route (ALWAYS Keep this as the last route)
 server.get('/*', function(req, res){
 		throw new NotFound;
 });
 
+//
+//
 function NotFound(msg){
 		this.name = 'NotFound';
 		Error.call(this, msg);
 		Error.captureStackTrace(this, arguments.callee);
 }
 
-
+//
+//
 console.log('Listening on http://0.0.0.0:' + port );

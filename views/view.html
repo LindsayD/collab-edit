@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../static/css/css-reset.css" />
+<link rel="stylesheet" type="text/css" href="view-css/view.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script src="view-js/view.js"></script>
+</head>
+<body>
+	<div id="tab_container">
+		<ul class="tabs">
+			<li id="desktop_switch" class="active"><span>Desktop</span></li>
+			<li id="tablet_switch"><span>Tablet</span></li>
+			<li id="mobile_switch"><span>Mobile</span></li>
+		</ul>
+    </div>
+    <div id="document_container">
+		<iframe class="tab" id="desktop_view" src="desktop.html"></iframe>
+		<iframe class="tab" id="tablet_view" src="tablet.html"></iframe>
+		<iframe class="tab" id="mobile_view" src="mobile.html"></iframe>
+	</div>
+</body>
+</html>
