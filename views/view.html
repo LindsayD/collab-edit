@@ -11,13 +11,15 @@
 <body>
 	<div id="tab_container">
 		<ul class="tabs">
-			<li class="active"><a href="#">Desktop</a></li>
-			<li><a href="#">Tablet</a></li>
-			<li><a href="#">Mobile</a></li>
+			<li id="desktop_switch" class="active"><span>Desktop</span></li>
+			<li id="tablet_switch"><span>Tablet</span></li>
+			<li id="mobile_switch"><span>Mobile</span></li>
 		</ul>
     </div>
-	<iframe class="tab" id="desktop_view"></iframe>
-	<iframe class="tab" id="tablet_view"></iframe>
-	<iframe class="tab" id="mobile_view"></iframe>
+    <div id="document_container">
+		<iframe class="tab" id="desktop_view" src="desktop.html"></iframe>
+		<iframe class="tab" id="tablet_view" src="tablet.html"></iframe>
+		<iframe class="tab" id="mobile_view" src="mobile.html"></iframe>
+	</div>
 </body>
 </html>
