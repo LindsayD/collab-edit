@@ -16,6 +16,10 @@
 		<script src="../js/script.js"></script>
 		<script src="../js/edit.js"></script>
 
+		<!-- ACE SCRIPTS -->
+		<script src="../js/ace-syntax.js"></script>
+		<script src="../js/ace-modes.js"></script>
+
 		<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
 	</head>
 
@@ -31,23 +35,21 @@
 							<a class="dropdown-toggle" id="dropfile" role="button" data-toggle="dropdown" href="#">File <b class="caret"></b></a>
 							<ul id="filemenu" class="dropdown-menu" role="menu" aria-labelledby="dropfile">
 								<li><a tabindex="-1" href="#">New File</a></li>
+								<li><a tabindex="-1" href="#">Open File</a></li>
+								<li><a tabindex="-1" href="#">Open Folder</a></li>
+								<li><a tabindex="-1" href="#">Open Recent</a></li>
 								<li class="divider"></li>
 								<li><a tabindex="-1" href="#">Save</a></li>
+								<li><a tabindex="-1" href="#">Save As</a></li>
+								<li><a tabindex="-1" href="#">Save All</a></li>
 								<li class="divider"></li>
-								<li><a tabindex="-1" href="#">Exit</a></li>
-							</ul>
-						</li>
-
-						<!-- ==================== EDIT ==================== -->
-						<li class="dropdown">
-							<a class="dropdown-toggle" id="dropedit" role="button" data-toggle="dropdown" href="#">Edit <b class="caret"></b></a>
-							<ul id="editmenu" class="dropdown-menu" role="menu" aria-labelledby="dropedit">
-								<li><a tabindex="-1" href="#">Undo</a></li>
-								<li><a tabindex="-1" href="#">Redo</a></li>
+								<li><a tabindex="-1" href="#">New Window</a></li>
+								<li><a tabindex="-1" href="#">Close Window</a></li>
 								<li class="divider"></li>
-								<li><a tabindex="-1" href="#">Cut</a></li>
-								<li><a tabindex="-1" href="#">Copy</a></li>
-								<li><a tabindex="-1" href="#">Paste</a></li>
+								<li><a tabindex="-1" href="#">Close File</a></li>
+								<li><a tabindex="-1" href="#">Close Without Saving</a></li>
+								<li><a tabindex="-1" href="#">Revert File</a></li>
+								<li><a tabindex="-1" href="#">Close All Files</a></li>
 							</ul>
 						</li>
 
@@ -55,11 +57,22 @@
 						<li class="dropdown">
 							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">View <b class="caret"></b></a>
 							<ul id="viewmenu" class="dropdown-menu" role="menu" aria-labelledby="dropview">
-								<li><a tabindex="-1" href="#">Full Screen</a></li>
-								<li><a tabindex="-1" href="#" onClick="togglePreview();">Preview</a></li>
+								<!-- FULL SCREEN -->
+								<li><a tabindex="-1" href="#" onClick="fullScreen();">Full Screen</a></li>
 								<li class="divider"></li>
-								<li><a tabindex="-1" href="#">Timeline</a></li>
 							</ul>
+						</li>
+
+						<!-- ==================== EDITOR ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">Theme <b class="caret"></b></a>
+							<ul id="theme" class="dropdown-menu" role="menu" aria-labelledby="dropview"></ul>
+						</li>
+
+						<!-- ==================== SYNTAX ==================== -->
+						<li class="dropdown">
+							<a class="dropdown-toggle" id="dropview" role="button" data-toggle="dropdown" href="#">Syntax <b class="caret"></b></a>
+							<ul id="syntax" class="dropdown-menu" role="menu" aria-labelledby="dropview"></ul>
 						</li>
 						
 						<!-- ==================== HELP ==================== -->
@@ -73,19 +86,21 @@
 								<li><a tabindex="-1" href="#">Developers</a></li>
 								</ul>
 						</li>
+
+                    	<!-- ==================== TIMELINE ================= -->
+                    	<li id="timeline-icon" title="Toggle Timeline"><i class="icon-time icon-2x"></i></li>
+						<li class="divider-vertical"></li>
+
+						<!-- ==================== PREVIEW ================= -->
+						<li id="preview-icon" title="Toggle Preview"><i class="icon-columns icon-2x"></i></li>
 					</ul> 
 					
 					<ul class="nav pull-right">
-                    	<!-- ==================== TIMELINE ================= -->
-                    	<li id="timeline-icon"><i class="icon-time icon-3x"></i></li>
-                        <style>
-							#timeline-icon{
-								margin-top:6px;
-							}
-						</style>
-                        <li class="divider-vertical"></li>
-						<!-- ==================== USERS ==================== -->
+                        <!-- ==================== USER ==================== -->
 						<li><span id="username"></span><img src="" id="gravatar" /></li>
+						<li class="divider-vertical"></li>
+						
+						<!-- ==================== USERS ==================== -->
 						<li class="dropdown">
                         
 							<a class="dropdown-toggle" id="dropusers" role="button" data-toggle="dropdown" href="#">Users <b class="caret"></b></a>
@@ -99,11 +114,7 @@
 			</div>
             
 		</div>
-		<div id="playback_container" class="row-fluid span12">
-        	<a id="back_button" class="btn span1" href="#"><i class="icon-backward"></i></a>
-            <div id="slider" class="span10"></div>
-            <a id="forward_button" class="btn span1" href="#"><i class="icon-forward"></i></a>
-        </div>
+		
 		<!-- PAGE BODY -->
         <div id="slide_container" class="span12">
             <div id="slider"></div>

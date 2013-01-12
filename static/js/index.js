@@ -45,7 +45,7 @@ function createNewDocument() {
  * Performs the login process
  */
 function login() {
-	postLoginData("steve@stevecommisso.com", function (data) {
+	postLoginData("lindsay@donaghe.com", function (data) {
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
 		
@@ -62,9 +62,30 @@ function setCurrentUser() {
 		// TODO Welcome user
 		currentUser = data.emailAddress;
 		sessionKey = data.sessionKey;
-		alert("welcome " + data.emailAddress);
+		
+		getUserName(data.gravatar.profile, function(name) {
+			if (typeof(name) === 'undefined' || name === "") name = data.emailAddress;
+			$('#currentUser').html('<div>Welcome back, <img src="' + data.gravatar.avatar + '?s=40" /> ' + name + '</div>');
+		});
 	});
 };
+
+function getUserName(profileUrl) {
+	$.ajax({
+		url: profileUrl,
+		type: 'GET',
+		dataType: 'jsonp',
+		crossDomain: 'true',
+		success: function(data) {
+			//alert(data.entry[0].name.givenName);
+			console.dir(data);
+			var name = "";
+			if (data && data.entry && data.entry[0] && data.entry[0].name)
+				name = data.entry[0].name.givenName;
+			if ($.isFunction(callback)) callback(name);
+		}
+	}); 
+}
 
 function getCurrentUserData (successCallback) {
 	$.ajax({
