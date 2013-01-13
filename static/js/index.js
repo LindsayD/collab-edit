@@ -44,3 +44,8 @@ $(function () {
 	$("#btnLogin").click(createNewDocument);
 	setCurrentUser();
 });
+
+$(document).ready(function(){
+	var resize_h = $(window).height();
+	$('section#top').height(resize_h);
+});
