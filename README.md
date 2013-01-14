@@ -1,4 +1,4 @@
-collab-edit
+Peer Resume
 ===========
 
-Collaborative code editor developed at the UHO
+Peer to peer resume critiquing.
