@@ -31,3 +31,5 @@ results
 npm-debug.log
 node_modules
 >>>>>>> Dynamic slider
+
+package.json
