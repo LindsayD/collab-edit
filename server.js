@@ -4,7 +4,7 @@ var connect = require('connect'),
 	db = require('./dbmodel/collabModels'),
 	socketMgr = require('./models/socketManager'),
 	routeMgr = require('./models/routeManager'),
-	port = (process.env.PORT || 8080);
+	port = (process.env.PORT || 80);
 
 // Setup Express
 var server = express.createServer();

@@ -20,12 +20,12 @@ exports.getSessionData = function (request, includeDocumentIds, callback) {
 		// If no current user, don't bother trying to retrieve documents
 		console.log("GetSessionData: No current user.");
 		callback(currentUser);
-	}	
+	}
 	else if (includeDocumentIds === true) {
 		console.log("GetSessionData: Loading Gravatar For " + currentUser.emailAddress);
 		// add gravatar info
 		currentUser.gravatar = vm.getGravatar(currentUser.emailAddress);
-		
+
 		// Get the currently edited docs
 		getDocuments(currentUser.emailAddress, function (err, data) {
 			if (err === null) {
@@ -61,7 +61,7 @@ var generateSessionKey = function () {
 	var soup = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
 		sessionKey = "",
 		length = 10;
-	
+
 	// Shuffle the soup
 	soup = shuffleString(soup);
 
@@ -73,7 +73,7 @@ var generateSessionKey = function () {
 		// Append the char
 		sessionKey += soup.charAt( pos );
 	}
-	
+
 	return sessionKey;
 };
 
@@ -85,7 +85,7 @@ exports.addUserToDocument = function (emailAddress, sessionKey, ipAddress, docum
 			callback(e, null);
 			return;
 		}
-		
+
 		// Check if current user is already logged in
 		var userSession = null,
 			emailLower = null,
@@ -105,40 +105,38 @@ exports.addUserToDocument = function (emailAddress, sessionKey, ipAddress, docum
 				userSession.lastActivity = new Date();
 			}
 		}
-		
+
 		// Otherwise create new entity
-		if (userSession === null) {
-			if (emailAddress !== null) {
-				userSession = new db.Models.Session({
-					emailAddress: emailAddress,
-					ipAddress: ipAddress,
-					lastActivity: new Date(),
-					userAgent: "chrome",
-					sessionKey: "temp",
-					documentId: documentId
-				});
-				console.log("Adding user \"" + emailAddress + "\" to document \"" + documentId + "\".");
-				console.log(JSON.stringify(userSession));
-				s = vm.convertSessionToViewModel(userSession);
-			}
-			if (socket !== null) {
+		if (userSession === null && emailAddress !== null) {
+			userSession = new db.Models.Session({
+				emailAddress: emailAddress,
+				ipAddress: ipAddress,
+				lastActivity: new Date(),
+				userAgent: "chrome",
+				sessionKey: "temp",
+				documentId: documentId
+			});
+			console.log("Adding user \"" + emailAddress + "\" to document \"" + documentId + "\".");
+			console.log(JSON.stringify(userSession));
+			s = vm.convertSessionToViewModel(userSession);
+			
+			if (socket !== null && s !== null) {
 				console.log("SOCKET: ADDING NEW USER");
-				socket.emit('user_session', s);	
-			}
-			if (emailAddress !== null && socket !== null) {
+				socket.emit('user_session', s);
+				
 				// Broadcast to room and self
 				socket.emit('joined_user', s);
 				socket.broadcast.to(documentId).emit('joined_user', s);
 				console.log("Broadcast new user");
 			}
 		}
-		else if (socket !== null) {
+		else if (userSession !== null && socket !== null) {
 			// User already logged in, broadcast to self
 			console.log("SOCKET: ADDING EXISTING USER");
 			s = vm.convertSessionToViewModel(userSession);
-			// socket.emit('user_session', s);	
+			socket.emit('user_session', s);
 		}
-				
+
 		// update the entity
 		if (userSession !== null) {
 			userSession.save(function (err, saved) {

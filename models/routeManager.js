@@ -5,28 +5,19 @@ var sessionMgr = require('./sessionManager'),
 
 exports.registerRoutes = function (server) {
 
-
-db.Models.Document.findAll(function(err, data) {
-	for (var i = 0; i < data.length; i++) {
-		console.log(JSON.stringify(data[i]));
-	}
-});
-
-
-
 	/////// ADD ALL YOUR ROUTES HERE  ////////
 
 	server.get('/', function(req,res){
 		// Load the HTML view
 		res.sendfile( 'views/index.html' );
 	});
-	
+
 	// LOGIN
 	server.get('/currentUser', function (req, res) {
 		sessionMgr.getSessionData(req, true, function (currentUser){
 			var currentUserJson = JSON.stringify(currentUser);
 			console.log("CURRENT USER DATA: " + currentUserJson);
-			
+
 			if (currentUser === null || currentUser.sessionKey === undefined || currentUser.sessionKey === null) {
 				throw new NotFound;
 			}
@@ -35,11 +26,11 @@ db.Models.Document.findAll(function(err, data) {
 			}
 		});
 	});
-	
+
 	server.post('/login', function (req, res) {
 		var loginData = JSON.stringify(req.body);
 		console.log("LOGIN DATA: " + loginData);
-		sessionMgr.setSessionData(req, req.body.emailAddress);		
+		sessionMgr.setSessionData(req, req.body.emailAddress);
 		sessionMgr.getSessionData(req, true, function (currentUser){
 			console.log("LOGGED IN USER " + JSON.stringify(currentUser));
 			res.json(currentUser);
@@ -49,15 +40,16 @@ db.Models.Document.findAll(function(err, data) {
 	// STRICTLY EDIT
 	server.get( '/edit/:id', function( req, res ) {
 		var documentId = req.params.id;
-		
+
 		async.waterfall([
 			function (callback) {
 				// get current user session
 				sessionMgr.getSessionData(req, true, function (currentUser){
-					console.log("Attempting to load document " + documentId + " as user " + req.ip + ", " + JSON.stringify(currentUser));
+					console.log("Attempting to load document " + documentId + " as user " + req.connection.remoteAddress + ", " + JSON.stringify(currentUser));
 					if (currentUser === null || currentUser.emailAddress === null) {
 						// No user available -- user needs to log in
 						callback(null, null);
+						return;
 					}
 					var docKeys = {
 						documentId: documentId,
@@ -70,9 +62,14 @@ db.Models.Document.findAll(function(err, data) {
 			function (docKeys, callback) {
 				if (docKeys !== null) {
 					// create document session or join one
-					sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null, callback);
+					sessionMgr.addUserToDocument(docKeys.emailAddress, docKeys.sessionKey, req.connection.remoteAddress, docKeys.documentId, null,
+						function (err, users) {
+							callback(null, docKeys);
+						});
 				}
-				callback(null, docKeys);	
+				else {
+					callback(null, docKeys);
+				}
 			}],
 			function (err, data) {
 				if (err !== null) {
@@ -80,6 +77,7 @@ db.Models.Document.findAll(function(err, data) {
 					throw err;
 				}
 				else {
+					console.log("Outputting edit template.");
 					res.sendfile( 'views/edit-template.html' );
 					//res.sendfile( 'views/edit.html' );
 				}
@@ -111,21 +109,21 @@ db.Models.Document.findAll(function(err, data) {
 	// Setup the errors
 	server.error(function(err, req, res, next){
 		if (err instanceof NotFound) {
-			res.render('404.jade', { locals: { 
+			res.render('404.jade', { locals: {
 								title : '404 - Not Found'
 							 ,description: ''
 							 ,author: ''
-							 ,analyticssiteid: 'XXXXXXX' 
+							 ,analyticssiteid: 'XXXXXXX'
 							},status: 404 });
 		} else {
 			console.error(err);
 			console.log(err.stack);
-			res.render('500.jade', { locals: { 
+			res.render('500.jade', { locals: {
 								title : 'The Server Encountered an Error'
 							 ,description: ''
 							 ,author: ''
 							 ,analyticssiteid: 'XXXXXXX'
-							 ,error: err 
+							 ,error: err
 							},status: 500 });
 		}
 	});

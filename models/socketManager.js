@@ -25,7 +25,7 @@ exports.initializeSocketServer = function (server) {
 					sessionMgr.addUserToDocument(data.emailAddress, data.sessionKey, ipAddress, room, socket, function (err, users) {
 						//else {
 							var docModel = vm.convertToDocumentChangeViewModel(doc, data.emailAddress);						
-							console.log("OUTPUTTING DOCUMENT: " + JSON.stringify(docModel));
+							console.log("OUTPUTTING DOCUMENT: \"" + doc._id + "\"");
 							
 							// Load document
 							socket.emit('edit', docModel);	

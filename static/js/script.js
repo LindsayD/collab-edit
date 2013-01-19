@@ -3,15 +3,20 @@
 // emailAddress = the address of the person who initiated the change
 // revisionNum = the count of revisions (bind this to the slider!)
 // text = the entire document text
+
+var _updatingFromServer = false;
 function updateEditor(data) {
 	// Get the editor
 	var editor = ace.edit( "editor" );
 
 	// Set the text
+	_updatingFromServer = true;
 	editor.setValue( data.text );
+	_updatingFromServer = false;
 }
 
 function updateDocument(data) {
+	if (_updatingFromServer === true) { return; }
 	socket.emit('edit', {
 		documentId: getDocId(),
 		text: data,
