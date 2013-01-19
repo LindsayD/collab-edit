@@ -3,26 +3,17 @@ var db = require("./../dbmodel/collabModels"),
 	async = require('async');
 
 var getDoc = function (documentId, callback) {
-	for (var i = 0; i < docs.length; i++) {
-		if (docs[i].documentId === documentId) {
-			callback(null, docs[i].document);
-			return;
+	db.Models.Document.findLatestById(documentId, function (err, doc) {
+		console.log("retrieving document: " + documentId + "...");
+		if (err === null) {
+			console.log("successfully retrieved document: " + JSON.stringify(doc));
 		}
-	}
-	callback(null, null);
-	// db.Models.Document.findLatestById(documentId, function (err, doc) {
-		// console.log("Retrieving document: " + documentId + "...");
-		// if (err === null) {
-			// console.log("Successfully retrieved document: " + JSON.stringify(doc));
-		// }
-		// else {
-			// console.log("ERROR retrieving doc id \"" + documentId + "\".");
-		// }
-		// callback(err, doc);
-	// });
+		else {
+			console.log("error retrieving doc id \"" + documentId + "\".");
+		}
+		callback(err, doc);
+	});
 };
-
-var docs = [];
 
 exports.getDocumentRevision = function (documentId, revisionNum, callback) {
 	db.Models.Document.findByIdAndRevision(documentId, revisionNum, function (err, doc) {
@@ -41,53 +32,40 @@ var template = "<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <link rel=\"stylesh
 exports.getOrCreateDocument = function (documentId, callback) {
 	getDoc(documentId, function(err, data) {
 		console.log( "GETORCREATEDOCUMENT(): " + JSON.stringify(data) );
-		if (data === null) {
+		if (err === null && data === null) {
+			// Create the doc
 			var doc = new db.Models.Document({
 				_id: documentId,
 				revisionNum: 0,
 				boilerplate: template,
 				text: template
 			});
-			callback(null, doc);
+			console.log("Creating new document...");
+			doc.save(function (e, saved) {
+				if (e !== null) { console.log("Save failed."); }
+				else { console.log("Saved: " + JSON.stringify(saved)); }
+				callback(e, saved);
+			});
 		}
 		else {
-			callback(null, data);
+			callback(err, data);
 		}
-	
-		// if (err === null && data === null) {
-			// // Create the doc
-			// var doc = new db.Models.Document({
-				// _id: documentId,
-				// revisionNum: 0,
-				// boilerplate: template,
-				// text: template
-			// });
-			// console.log("Creating new document...");
-			// doc.save(function (e, saved) {
-				// if (e !== null) { console.log("Save failed."); }
-				// else { console.log("Saved: " + JSON.stringify(saved)); }
-				// callback(e, saved);
-			// });
-		// }
-		// else {
-			// callback(err, data);
-		// }
 	});
 }
 
 var saveDoc = function (newText, dbDocument, callback) {
+	debugger;
 	if (newText !== dbDocument.text) {
 		dbDocument.text = newText;
 		dbDocument.revisionNum+= 1;
 		console.log("Saving document change \"" + dbDocument.documentId + "\"...");
 		
 		// update the entity if a diff is detected
-		
-		// dbDocument.save(function (err, saved) {
-			// if (err) { console.log("ERROR Save document failed: " + err); }
-			// console.log("Saved document: " + JSON.stringify(saved));
-			// callback(err, saved);
-		// });
+		dbDocument.save(function (err, saved) {
+			if (err) { console.log("ERROR Save document failed: " + err); }
+			console.log("Saved document: " + JSON.stringify(saved));
+			callback(err, saved);
+		});
 	}
 	else {
 		callback(null, dbDocument);
@@ -97,13 +75,13 @@ var saveDoc = function (newText, dbDocument, callback) {
 var emitChange = function (document, emailAddress, socket, callback) {
 	if (document === null) {
 		// No change detected
-		console.WriteLine("EMITTING CHANGE() -- NULL DOC");
+		console.log("EMITTING CHANGE() -- NULL DOC");
 		callback(null, null);
 		return;
 	}
 	
 	// Change detected, emit back to the client
-		console.WriteLine("EMITTING CHANGE()");
+		console.log("EMITTING CHANGE()");
 	var change = vm.convertToDocumentChangeViewModel(document, emailAddress);
 	socket.broadcast.to(document.documentId).emit('edit', change);
 	console.log("CHANGE DOCUMENT: " + document.documentId + ", " + emailAddress);
@@ -114,23 +92,14 @@ exports.recordDocumentChange = function (documentChange, socket) {
 		documentId = documentChange.documentId,
 		newText = documentChange.text;
 	
-	getDoc(documentId, function(err, data) {
-		if (err !== null) {
-			saveDoc(newText, data, function (e, d) {
-				emitChange(d, changingUser, socket, function (e2, d2) {
-				});
-			});
-		}
+	async.waterfall([
+		function (callback) { debugger; getDoc(documentId, callback); },
+		function (doc, callback) { debugger; saveDoc(newText, doc, callback); },
+		function (doc, callback) { debugger; emitChange(doc, changingUser, socket, callback); }
+	],
+	function (err, result) {
+		if (err) { console.log("ERROR Record document change failed: " + err); }
 	});
-	
-	// async.waterfall([
-			// function (callback) { getDoc(documentId, callback); },
-			// function (doc, callback) { saveDoc(newText, doc, callback); },
-			// function (doc, callback) { emitChange(doc, changingUser, socket, callback); }
-		// ],
-		// function (err, result) {
-			// if (err) { console.log("ERROR Record document change failed: " + err); }
-		// });
 };
 
 exports.recordCursorChange = function (cursorChange, socket) {

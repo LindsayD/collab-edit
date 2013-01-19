@@ -5,6 +5,15 @@ var sessionMgr = require('./sessionManager'),
 
 exports.registerRoutes = function (server) {
 
+
+db.Models.Document.findAll(function(err, data) {
+	for (var i = 0; i < data.length; i++) {
+		console.log(JSON.stringify(data[i]));
+	}
+});
+
+
+
 	/////// ADD ALL YOUR ROUTES HERE  ////////
 
 	server.get('/', function(req,res){

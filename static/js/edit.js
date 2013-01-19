@@ -48,26 +48,27 @@ function initEditor() {
 
 	// Bind a change function
 	editor.on( 'change', function( e ) {
-			// Get the text
-			var x = editor.getValue();
-			
-			// Attempt to append the html
-			try {
-				// Update the local document
-				// $( '#source' ).contents().find( 'html' ).html( x );
-				$( '#source' ).attr( 'srcdoc', x );
+		// Get the text
+		var x = editor.getValue();
+		
+		// Attempt to append the html
+		try {
+			// Update the local document
+			// $( '#source' ).contents().find( 'html' ).html( x );
+			$( '#source' ).attr( 'srcdoc', x );
 
-				// Update the document on the server
-				updateDocument( x );
-			} catch(e) {}
-		}
-	);
-	
-	$.get('../html/defaultTemplate.htm', function(html) {
-	
-		// TODO Load from db document.text
-		editor.setValue( html );
+			// Update the document on the server
+			
+			updateDocument( x );
+		} catch(e) {}
 	});
+	
+	
+	// COMMENTED OUT -- this is trying to update the server prior to the document even existing
+	// $.get('../html/defaultTemplate.htm', function(html) {	
+		// // TODO Load from db document.text
+		// editor.setValue( html );
+	// });
 }
 
 /**
@@ -77,8 +78,6 @@ function initTimeline() {
 	// Initialie the slider
 	$( "#slider" ).slider( {disabled:false, slide: updateFile, value: 100} );
 	var max = $( ".selector" ).slider( "option", "max" );
-	
-
 }
 
 

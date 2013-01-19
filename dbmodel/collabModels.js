@@ -35,6 +35,9 @@ exports.Schema.document.statics.findLatestById = function (id, callback) {
 exports.Schema.document.statics.findByIdAndRevision = function (id, revisionNum, callback) {
 	this.findOne({ _id: id, revisionNum: revisionNum }, callback);
 };
+exports.Schema.document.statics.findAll = function (callback) {
+	this.find().exec(callback);
+};
 exports.Models.Document = mongoose.model("Document", exports.Schema.document);
 
 // CHANGE
