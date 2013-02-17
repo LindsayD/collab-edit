@@ -56,3 +56,7 @@
 	padding: 3px;
 	font-style: bold;
 }
+#login{
+	display:none;
+	position: absolute;
+}
